@@ -1,4 +1,13 @@
 {
+	"name": "indexed",
+	"version": "0.1.3",
+	"description": "database-like indexed array that always returns a new array",
+	"main": "index.js",
+	"scripts": {
+	  "compile": "rm -rf ./lib && ./node_modules/.bin/babel src --out-dir lib",
+	  "test": "./node_modules/.bin/mocha",
+	  "spec": "./node_modules/.bin/mocha --reporter markdown > spec.md"
+  },
   "devDependencies": {
     "babel": "^6.0.15",
     "babel-cli": "^6.1.2",
@@ -16,15 +25,6 @@
       "stage-0",
       "react"
     ]
-  },
-  "name": "indexed",
-  "version": "0.1.2",
-  "description": "database-like indexed array that always returns a new array",
-  "main": "index.js",
-  "scripts": {
-    "compile": "rm -rf ./lib && ./node_modules/.bin/babel src --out-dir lib",
-    "test": "./node_modules/.bin/mocha",
-    "spec": "./node_modules/.bin/mocha --reporter markdown > spec.md"
   },
   "author": "xananax@yelostudio.com",
   "license": "MIT",
