@@ -657,7 +657,7 @@ expect(resultWrapped.indexes('name').get('ba')).to.equal(0);
 expect(resultClosed.indexes('name').get('ba')).to.equal(0);
 ```
 
-should stop when break signal is returned.
+should stop when BREAK signal is returned.
 
 ```js
 var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
@@ -673,13 +673,27 @@ expect(resultWrapped.indexes('name').get('ba')).to.equal(0);
 expect(resultClosed.indexes('name').get('ba')).to.equal(0);
 ```
 
+should skip when SKIP signal is returned.
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+function map(_ref4, i) {
+	var name = _ref4.name;
+	return i % 2 ? { name: name + 'a', i: i } : SKIP;
+}
+var resultWrapped = wrapped.transform(map);
+expect(resultWrapped.length).to.equal(2);
+expect(resultWrapped.indexes('name').get('ba')).to.be.undefined;
+expect(resultWrapped.indexes('name').get('da')).to.equal(0);
+```
+
 should filter falsy values.
 
 ```js
 var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
 var closed = asClosure([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
-function map(_ref4, i) {
-	var name = _ref4.name;
+function map(_ref5, i) {
+	var name = _ref5.name;
 	return i % 2 ? { name: name + 'a', i: i } : false;
 }
 var resultWrapped = wrapped.transform(map);
@@ -1114,6 +1128,43 @@ expect(get('aa')).to.eql({ name: 'aa', itWorks: true });
 expect(get('bb')).to.eql({ name: 'bb', itWorks: true });
 ```
 
+could be used to enforce a same-type array by throwing an error on invalid values.
+
+```js
+var wrapped = wrap([1, 2, 3], null, function (el) {
+	if (!(typeof el == 'number')) {
+		throw new Error('Non-numbers are not allowed');
+	}
+	return el;
+});
+var results = wrapped.push(5);
+expect(results.length).to.equal(4);
+expect(function () {
+	wrapped.push('a');
+}).to.throw();
+```
+
+should be a no-op if BREAK is returned from the function.
+
+```js
+var wrapped = wrap([1, 2, 3], null, function (el) {
+	return !(typeof el == 'number') ? BREAK : el;
+});
+var results = wrapped.concat([5, 8, 'a', 4]);
+expect(results.length).to.equal(3);
+```
+
+invalid values are skipped if SKIP is returned from the function.
+
+```js
+var wrapped = wrap([1, 2, 3], null, function (el) {
+	return !(typeof el == 'number') ? SKIP : el;
+});
+var results = wrapped.push(5, 8, 'a', 4);
+expect(results).to.eql([1, 2, 3, 5, 8, 4]);
+expect(results.length).to.equal(6);
+```
+
 should not operate on set if replace is not set.
 
 ```js
@@ -1222,7 +1273,7 @@ should return true if any of the object fullfills the predicate.
 
 ```js
 var arr = [12, 5, 8, 1, 4];
-var wrapped = wrap(arr);
+var wrapped = wrapArray(arr);
 expect(arr.some(isBiggerThan10)).to.be.true;
 expect(wrapped.some(isBiggerThan10)).to.be.true;
 ```
@@ -1231,7 +1282,7 @@ should return false if none of the objects fullfills the predicate.
 
 ```js
 var arr = [2, 5, 8, 1, 4];
-var wrapped = wrap(arr);
+var wrapped = wrapArray(arr);
 expect(arr.some(isBiggerThan10)).to.be.false;
 expect(wrapped.some(isBiggerThan10)).to.be.false;
 ```
@@ -1245,9 +1296,21 @@ function isBiggerThan10BREAK(element, index) {
 	return BREAK;
 }
 var arr = [2, 5, 18, 11, 14];
-var wrapped = wrap(arr);
+var wrapped = wrapArray(arr);
 expect(wrapped.some(isBiggerThan10BREAK)).to.be.false;
 expect(i).to.equal(1);
+```
+
+should skip the value if SKIP is returned.
+
+```js
+var i = 0;
+function isBiggerThan10SKIP(element, index) {
+	return element > 10 ? SKIP : false;
+}
+var arr = [2, 5, 18, 11, 14];
+var wrapped = wrapArray(arr);
+expect(wrapped.some(isBiggerThan10SKIP)).to.be.false;
 ```
 
 <a name="unmodified-array-methods-methods-returning-an-array"></a>
@@ -1257,12 +1320,34 @@ expect(i).to.equal(1);
 should work just like a regular array.
 
 ```js
-var test1 = makeComparisons([2, 5, 9]);
-test1.map(function (el) {
-	return expect(el.map(function (n) {
-		return n + 1;
-	})).to.eql([3, 6, 10]);
+var test = wrapArray([2, 5, 9]).map(function (n) {
+					return n + 1;
+				});
+				expect(test).to.eql([3, 6, 10]);
+```
+
+should break early if BREAK is returned.
+
+```js
+var v = 0;
+var test = wrapArray([2, 5, 9]).map(function (n, i) {
+	if (i > 1) {
+		return BREAK;
+	}
+	v = i;
+	return n + 1;
 });
+expect(test).to.eql([3, 6]);
+expect(v).to.equal(1);
+```
+
+should skip the value if SKIP is returned.
+
+```js
+var test = wrapArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).map(function (n) {
+	return n % 2 ? n : SKIP;
+});
+expect(test).to.eql([1, 3, 5, 7, 9]);
 ```
 
 <a name="unmodified-array-methods-methods-returning-an-array-keys"></a>

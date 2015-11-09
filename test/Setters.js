@@ -1,6 +1,6 @@
 import chai from 'chai'
 import Indexed from '../src/'
-const {asClosure,wrapArray:wrap,BREAK,isArrayLike} = Indexed;
+const {asClosure,wrapArray:wrap,BREAK,SKIP,isArrayLike} = Indexed;
 var expect = chai.expect;
 
 describe('Set/Update/Remove',()=>{
@@ -275,6 +275,37 @@ describe('Set/Update/Remove',()=>{
 				expect(get('b')).to.be.undefined;
 				expect(get('aa')).to.eql({name:'aa',itWorks:true});
 				expect(get('bb')).to.eql({name:'bb',itWorks:true});
+			})
+			it('could be used to enforce a same-type array by throwing an error on invalid values',()=>{
+				var wrapped = wrap([1,2,3]
+				,	null
+				,	(el)=>{
+						if(!(typeof el=='number')){
+							throw new Error('Non-numbers are not allowed')
+						}
+						return el;
+					}
+				);
+				var results = wrapped.push(5)
+				expect(results.length).to.equal(4);
+				expect(()=>{wrapped.push('a')}).to.throw();
+			})
+			it('should be a no-op if BREAK is returned from the function',()=>{
+				var wrapped = wrap([1,2,3]
+				,	null
+				,	(el)=>(!(typeof el=='number'))? BREAK :  el
+				);
+				var results = wrapped.concat([5,8,'a',4])
+				expect(results.length).to.equal(3);
+			})
+			it('invalid values are skipped if SKIP is returned from the function',()=>{
+				var wrapped = wrap([1,2,3]
+				,	null
+				,	(el)=>(!(typeof el=='number'))? SKIP :  el
+				);
+				var results = wrapped.push(5,8,'a',4)
+				expect(results).to.eql([1,2,3,5,8,4])
+				expect(results.length).to.equal(6);
 			})
 			it('should not operate on set if replace is not set',()=>{
 				var wrapped = wrap(

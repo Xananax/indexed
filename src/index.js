@@ -16,11 +16,13 @@ import {
 
 import {
 	BREAK
+,	SKIP
 } from './constants';
 
 Indexed.asClosure = asClosure
 Indexed.wrapArray = asArray;
 Indexed.isArrayLike = isArrayLike;
 Indexed.BREAK = BREAK;
+Indexed.SKIP = SKIP;
 
 export default Indexed;

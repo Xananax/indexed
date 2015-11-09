@@ -1,6 +1,6 @@
 import chai from 'chai'
 import Indexed from '../src/'
-const {asClosure,wrapArray:wrap,BREAK,isArrayLike} = Indexed;
+const {asClosure,wrapArray:wrap,BREAK,SKIP,isArrayLike} = Indexed;
 var expect = chai.expect;
 
 function verify(wrapped,closed,n){
@@ -90,7 +90,7 @@ describe('Methods that return a new indexed object',()=>{
 				expect(resultWrapped.indexes('name').get('ba')).to.equal(0)
 				expect(resultClosed.indexes('name').get('ba')).to.equal(0)
 			})
-			it('should stop when break signal is returned',()=>{
+			it('should stop when BREAK signal is returned',()=>{
 				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
 				var closed = asClosure([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
 				function map({name},i){return i>=2?BREAK:{name:name+'a',i};}
@@ -99,6 +99,17 @@ describe('Methods that return a new indexed object',()=>{
 				verify(resultWrapped,resultClosed,2);
 				expect(resultWrapped.indexes('name').get('ba')).to.equal(0)
 				expect(resultClosed.indexes('name').get('ba')).to.equal(0)
+			})
+			it('should skip when SKIP signal is returned',()=>{
+				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+
+				function map({name},i){return i%2?{name:name+'a',i}:SKIP;}
+
+				var resultWrapped = wrapped.transform(map);
+
+				expect(resultWrapped.length).to.equal(2);
+				expect(resultWrapped.indexes('name').get('ba')).to.be.undefined;
+				expect(resultWrapped.indexes('name').get('da')).to.equal(0)
 			})
 			it('should filter falsy values',()=>{
 				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');

@@ -5,6 +5,7 @@ import {
 } from './array-indexes';
 import {
 	BREAK
+,	SKIP
 ,	arrProto
 } from './constants';
 
@@ -14,18 +15,20 @@ export function some(indexes,arr,callback,thisArg){
 		var val = arr[i];
 		var result = callback.call(thisArg,val,i,arr);
 		if(result === BREAK){return false;}
+		if(result === SKIP){i++;continue;}
 		if(result == true){return true;}
 		i++;
 	}
 	return false;
 }
 export function map(indexes,arr,callback,thisArg){
-	var {length} = arr, i = 0,newArr = new Array(length);
+	var {length} = arr, i = 0, newArr = [];
 	while(i<length){
 		var val = arr[i];
 		var result = callback.call(thisArg,val,i,arr);
 		if(result === BREAK){return newArr;}
-		newArr[i] = result;
+		if(result === SKIP){i++;continue;}
+		newArr.push(result)
 		i++;
 	}
 	return newArr;

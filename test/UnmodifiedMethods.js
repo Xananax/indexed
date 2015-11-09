@@ -1,11 +1,11 @@
 import chai from 'chai'
 import Indexed from '../src/'
-const {asClosure,wrapArray:wrap,isArrayLike,BREAK} = Indexed;
+const {asClosure,wrapArray,isArrayLike,BREAK,SKIP} = Indexed;
 var expect = chai.expect;
 
 function makeComparisons(arr){
 	var arr = arr.slice();
-	var wrapped = wrap(arr.slice());
+	var wrapped = wrapArray(arr.slice());
 	var closed = asClosure(arr.slice());
 	return [wrapped,closed,arr];
 }
@@ -75,13 +75,13 @@ describe('Unmodified array methods',()=>{
 			}
 			it('should return true if any of the object fullfills the predicate',()=>{
 				var arr = [12, 5, 8, 1, 4]
-				var wrapped = wrap(arr)
+				var wrapped = wrapArray(arr)
 				expect(arr.some(isBiggerThan10)).to.be.true;
 				expect(wrapped.some(isBiggerThan10)).to.be.true;
 			})
 			it('should return false if none of the objects fullfills the predicate',()=>{
 				var arr = [2, 5, 8, 1, 4]
-				var wrapped = wrap(arr)
+				var wrapped = wrapArray(arr)
 				expect(arr.some(isBiggerThan10)).to.be.false;
 				expect(wrapped.some(isBiggerThan10)).to.be.false;
 			})
@@ -92,19 +92,44 @@ describe('Unmodified array methods',()=>{
 					return BREAK;
 				}
 				var arr = [2, 5, 18, 11, 14]
-				var wrapped = wrap(arr)
+				var wrapped = wrapArray(arr)
 				expect(wrapped.some(isBiggerThan10BREAK)).to.be.false;
 				expect(i).to.equal(1);
+			})
+			it('should skip the value if SKIP is returned',()=>{
+				var i = 0;
+				function isBiggerThan10SKIP(element,index){
+					return (element > 10) ? SKIP : false;
+				}
+				var arr = [2, 5, 18, 11, 14]
+				var wrapped = wrapArray(arr)
+				expect(wrapped.some(isBiggerThan10SKIP)).to.be.false;
 			})
 		})
 	})
 	describe('Methods returning an array',()=>{
 		describe('map(function[,thisArg])',()=>{
 			it('should work just like a regular array',()=>{
-				var test1 = makeComparisons([2, 5, 9]);
-				test1.map(el=>
-					expect(el.map(n=>n+1)).to.eql([3,6,10])
-				)
+
+				var test = wrapArray([2, 5, 9]).map(n=>n+1)
+
+				expect(test).to.eql([3,6,10])
+			})
+			it('should break early if BREAK is returned',()=>{
+				var v = 0;
+				var test = wrapArray([2, 5, 9]).map((n,i)=>{
+					if(i>1){return BREAK;}
+					v = i;
+					return n+1
+				})
+				expect(test).to.eql([3,6])
+				expect(v).to.equal(1);
+			})
+			it('should skip the value if SKIP is returned',()=>{
+				var test = wrapArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).map(n=>{
+					return n%2?n:SKIP
+				})
+				expect(test).to.eql([1,3,5,7,9])
 			})
 		})
 		describe('keys()',()=>{

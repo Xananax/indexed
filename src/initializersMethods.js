@@ -12,50 +12,78 @@ import {
 ,	slice as nativeSlice
 ,	isArrayLike
 } from './utils';
+import {
+	BREAK
+,	SKIP
+} from './constants';
+
+function initializeMany(initializer,vals){
+	const {length} = vals;
+	var i = 0;
+	const results = [];
+	while(i<length){
+		let result = initializer(vals[i++]);
+		if(result === BREAK){return BREAK;}
+		if(result === SKIP){continue;}
+		results.push(result);
+	}
+	return results;
+}
 
 function concatInitialize(initializer,indexes,mutate,arr,...values){
-	var vals = values.map(val=>{
-		if(!isArrayLike(val)){
-			return initializer(val);
-		}
-		var {length} = val, i = 0;
-		while(i<length){
-			val[i] = initializer(val[i]);
-			i++;
-		}
-		return val;
-	});
-	return concat(indexes,mutate,arr,...vals);
+	const {length} = values;
+	var i = 0;
+	const results = [];
+	while(i<length){
+		let val = values[i++];
+		let result = (!isArrayLike(val)) ? initializer(val) : initializeMany(initializer,val)
+		if(result === BREAK){return [indexes,arr];}
+		if(result === SKIP){continue;}
+		results.push(result);
+	}
+	return concat(indexes,mutate,arr,...results);
 }
 
 function pushInitialize(initializer,indexes,mutate,arr,...values){
-	return push(indexes,mutate,arr,...values.map(initializer))
+	values = initializeMany(initializer,values)
+	if(values === BREAK){return [indexes,arr];}
+	return push(indexes,mutate,arr,...values)
 }
 
-function spliceInitialize(initializer,indexes,mutate,arr,start,deleteCount,...items){
-	return splice(indexes,mutate,arr,start,deleteCount,...items.map(initializer))
+function spliceInitialize(initializer,indexes,mutate,arr,start,deleteCount,...values){
+	values = initializeMany(initializer,values)
+	if(values === BREAK){return [indexes,arr];}
+	return splice(indexes,mutate,arr,start,deleteCount,...values)
 }
 
 function unshiftInitialize(initializer,indexes,mutate,arr,...values){
-	return unshift(indexes,mutate,arr,...values.map(initializer))
+	values = initializeMany(initializer,values)
+	if(values === BREAK){return [indexes,arr];}
+	return unshift(indexes,mutate,arr,...values)
 }
 
 function setInitialize(initializer,indexes,mutate,arr,indexOrPredicate,value,replace,remove){
 	if(remove || !replace){
 		return set(indexes,mutate,arr,indexOrPredicate,value,false,remove)
 	}
-	return set(indexes,mutate,arr,indexOrPredicate,initializer(value),true)
+	value = initializer(value);
+	if(value === BREAK|| value === SKIP){return [indexes,arr];}
+	return set(indexes,mutate,arr,indexOrPredicate,value,true)
 }
 
 function setManyInitialize(initializer,indexes,mutate,arr,predicates,value,remove){
 	if(remove){
 		return setMany(indexes,mutate,arr,predicates,value,remove)
 	}
-	return setMany(indexes,mutate,arr,predicates,initializer(value));
+	value = initializer(value);
+	if(value === BREAK|| value === SKIP){return [indexes,arr];}
+	return setMany(indexes,mutate,arr,predicates,value);
 }
 
 function replaceInitialize(initializer,indexes,mutate,arr,indexOrPredicate,value){
-	return replace(indexes,mutate,arr,indexOrPredicate,initializer(value))
+	value = initializer(value);
+	if(value === BREAK|| value === SKIP){return [indexes,arr];}
+	return replace(indexes,mutate,arr,indexOrPredicate,value)
 }
 
 export default {

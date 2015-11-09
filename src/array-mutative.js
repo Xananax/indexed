@@ -20,6 +20,7 @@ import {
 
 import {
 	BREAK
+,	SKIP
 ,	arrProto
 } from './constants';
 
@@ -67,6 +68,7 @@ export function transform(indexes,mutate,arr,callback,thisArg){
 		var val = arr[i];
 		var result = callback.call(thisArg,val,i,arr);
 		if(result === BREAK){break;}
+		if(result === SKIP){result = false;}
 		newArr[i] = result;
 		i++;
 	}
