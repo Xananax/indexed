@@ -1,0 +1,50 @@
+{
+  "devDependencies": {
+    "babel": "^6.0.15",
+    "babel-cli": "^6.1.2",
+    "babel-core": "^6.1.2",
+    "babel-preset-es2015": "^6.1.2",
+    "babel-preset-react": "^6.1.2",
+    "babel-preset-stage-0": "^6.1.2",
+    "chai": "^3.4.1",
+    "mocha": "^2.3.3",
+    "should": "^7.1.1"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "stage-0",
+      "react"
+    ]
+  },
+  "name": "indexed",
+  "version": "0.1.0",
+  "description": "database-like indexed array that always returns a new array",
+  "main": "index.js",
+  "scripts": {
+    "compile": "rm -rf ./lib && ./node_modules/.bin/babel src --out-dir lib",
+    "test": "./node_modules/.bin/mocha",
+    "spec": "./node_modules/.bin/mocha --reporter markdown > spec.md"
+  },
+  "author": "xananax@yelostudio.com",
+  "license": "MIT",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xananax/indexed.git"
+  },
+  "keywords": [
+    "array",
+    "indexes",
+    "map",
+    "arrayLike",
+    "database",
+    "hash"
+  ],
+  "bugs": {
+    "url": "https://github.com/Xananax/indexed/issues"
+  },
+  "homepage": "https://github.com/Xananax/indexed#readme"
+}
