@@ -4,7 +4,7 @@ const {asClosure,wrapArray,BREAK,isArrayLike,factory:IndexedFactory} = Indexed;
 var expect = chai.expect;
 
 describe('Interfaces',()=>{
-	describe('new Indexed(array,indexes,initializer)',()=>{
+	describe('new Indexed([items:array[,indexes:any[,initializer:function]]])',()=>{
 		describe('new Indexed()',()=>{
 			it('should create a new Indexed object',()=>{
 				var indexed = new Indexed();
@@ -17,21 +17,21 @@ describe('Interfaces',()=>{
 				expect(indexed).to.be.instanceOf(Indexed);
 			})
 		})
-		describe('new Indexed(array)',()=>{
+		describe('new Indexed(items:array)',()=>{
 			it('should create a new Indexed object',()=>{
 				var indexed = new Indexed(['a','b']);
 				expect(indexed.get(0)).to.equal('a')
 				expect(indexed.size()).to.equal(2);
 			})
 		})
-		describe('new Indexed(array,index:string)',()=>{
+		describe('new Indexed(items:array,index:string)',()=>{
 			it('should set an index',()=>{
 				var indexed = new Indexed([],'name');
 				expect(indexed.indexes().has('name')).to.be.true;
 				expect(indexed.indexes('name').size).to.equal(0);
 			})
 		})
-		describe('new Indexed(array,array)',()=>{
+		describe('new Indexed(items:array,indexes:array)',()=>{
 			it('should set all the indexes specified',()=>{
 				var indexed = new Indexed([],['name','size']);
 				expect(indexed.indexes().has('name')).to.be.true;
@@ -39,7 +39,7 @@ describe('Interfaces',()=>{
 				expect(indexed.indexes().size).to.equal(2);
 			})
 		})
-		describe('new Indexed(array,object)',()=>{
+		describe('new Indexed(items:array,indexes:object)',()=>{
 			it('should set all the indexes and values specified',()=>{
 				var indexed = new Indexed([{name:'a'},{name:'b'}],{name:{a:0,b:1,c:2}});
 				expect(indexed.indexes().has('name')).to.be.true;
@@ -48,14 +48,14 @@ describe('Interfaces',()=>{
 				expect(indexed.indexes('name').get('a')).to.equal(0)
 			})
 		})
-		describe('new Indexed(array,indexes,initializer)',()=>{
+		describe('new Indexed(items:array,indexes:any,initializer:function)',()=>{
 			it('should put all added objects through the initializer',()=>{
 				var indexed = new Indexed([],'name',(el)=>{return {name:el}});
 				expect(indexed.push('a','b','c').get('name','a')).to.eql({name:'a'})
 			})
 		})
 	})
-	describe('asClosure(array,[indexes[,initializer,factory],receiver])',()=>{
+	describe('asClosure([items:array,[indexes:any[,initializer:function,factory:function],receiver:any]])',()=>{
 		describe('asClosure()',()=>{
 			it('should return an object similar to an Indexed',()=>{
 				var closed = asClosure();
@@ -63,27 +63,27 @@ describe('Interfaces',()=>{
 				expect(closed).to.have.property('indexes');
 			})
 		})
-		describe('asClosure(array)',()=>{
+		describe('asClosure(items:array)',()=>{
 			it('should create a closure around the provided array',()=>{
 				var arr = [1,2,3]
 				var closed = asClosure(arr);
 				expect(closed.value()).to.equal(arr);
 			})
 		})
-		describe('asClosure(array,indexes)',()=>{
+		describe('asClosure(items:array,indexes:any)',()=>{
 			it('should create the given indexes',()=>{
 				var closed = asClosure([],'name');
 				expect(closed).to.have.property('indexes');
 				expect(closed.indexes().has('name')).to.be.true;
 			})
 		})
-		describe('asClosure(array,indexes,fn:initializer)',()=>{
+		describe('asClosure(items:array,indexes:any,initializer:function)',()=>{
 			it('should use the provided initializer',()=>{
 				var closed = asClosure([],'name',(el)=>{return {name:el}});
 				expect(closed.push('a','b','c').get('name','a')).to.eql({name:'a'})
 			})
 		})
-		describe('asClosure(array,indexes,fn:initializer,fn:factory,receiver:obj)',()=>{
+		describe('asClosure(items:array,indexes,initializer:function,factory:function,receiver:object)',()=>{
 			it('should use the factory',()=>{
 				it('should add the methods to the provided object',()=>{
 					function factory(arr,indexes,initializer,factory){
@@ -100,14 +100,14 @@ describe('Interfaces',()=>{
 			})
 		})
 	})
-	describe('wrapArray(array,indexes,factory)',()=>{
+	describe('wrapArray([items:array[,indexes:any[,factory:function]]])',()=>{
 		describe('wrapArray()',()=>{
 			it('should return an augmented array',()=>{
 				var arr = wrapArray();
 				expect(arr).to.have.property('indexes');
 			})
 		})
-		describe('wrapArray(array)',()=>{
+		describe('wrapArray(items:array)',()=>{
 			it('should augment the array with all methods',()=>{
 				var arr = [1,2,3];
 				wrapArray(arr);
