@@ -4,21 +4,23 @@ const {asClosure,wrapArray:wrap,BREAK,isArrayLike} = Indexed;
 var expect = chai.expect;
 
 describe('Working With Indexes',()=>{
-	describe('indexes()',()=>{
-		it('returns the indexes map',()=>{
-			var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
-			expect(wrapped.indexes()).to.be.instanceOf(Map)
-			expect(wrapped.indexes().size).to.equal(1)
-		})
-		describe('indexes(indexName:string)',()=>{
-			it('returns the specific index map',()=>{
+	describe('indexes([indexName:string])',()=>{
+		describe('indexes()',()=>{
+			it('returns the indexes map',()=>{
 				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
-				expect(wrapped.indexes('name')).to.be.instanceOf(Map)
-				expect(wrapped.indexes('name').size).to.equal(4)
+				expect(wrapped.indexes()).to.be.instanceOf(Map)
+				expect(wrapped.indexes().size).to.equal(1)
+			})
+			describe('indexes(indexName:string)',()=>{
+				it('returns the specific index map',()=>{
+					var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+					expect(wrapped.indexes('name')).to.be.instanceOf(Map)
+					expect(wrapped.indexes('name').size).to.equal(4)
+				})
 			})
 		})
 	})
-	describe('has()',()=>{
+	describe('has([indexName:string[,key:string]])',()=>{
 		describe('has(indexName:string,key:string)',()=>{
 			it('should return the true if the object specified by indexName and key exists',()=>{
 				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
@@ -50,7 +52,7 @@ describe('Working With Indexes',()=>{
 			})
 		})
 	})
-	describe('getIndex()',()=>{
+	describe('getIndex([indexName:string[,key:string]])',()=>{
 		describe('getIndex(indexName:string,key:string)',()=>{
 			it('should return the index if the object specified by indexName and key exists',()=>{
 				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');

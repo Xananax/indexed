@@ -4,7 +4,7 @@ const {asClosure,wrapArray:wrap,BREAK,isArrayLike} = Indexed;
 var expect = chai.expect;
 
 describe('Getters',()=>{
-	describe('get()',()=>{
+	describe('get(index:integer|string[,key:string])',()=>{
 		describe('get(index:number)',()=>{
 			it('should return the object specified by index number',()=>{
 				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
@@ -15,7 +15,7 @@ describe('Getters',()=>{
 				expect(wrapped.get(9)).to.be.undefined;;
 			})
 		})
-		describe('get(indexName,key)',()=>{
+		describe('get(indexName:string,key:string)',()=>{
 			it('should return the object specified by indexName and key',()=>{
 				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
 				expect(wrapped.get('name','b')).to.eql({name:'b'});
@@ -25,7 +25,7 @@ describe('Getters',()=>{
 				expect(wrapped.get('name','f')).to.be.undefined;;
 			})
 		})
-		describe('get(indexName)',()=>{
+		describe('get(indexName:string)',()=>{
 			it('should return a function getInIndex(key) that can be used to retrieve keys',()=>{
 				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
 				var get = wrapped.get('name');

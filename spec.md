@@ -1,71 +1,79 @@
 # TOC
    - [Getters](#getters)
-     - [get()](#getters-get)
-       - [get(index:number)](#getters-get-getindexnumber)
-       - [get(indexName,key)](#getters-get-getindexnamekey)
-       - [get(indexName)](#getters-get-getindexname)
+     - [get(index:integer|string[,key:string])](#getters-getindexintegerstringkeystring)
+       - [get(index:number)](#getters-getindexintegerstringkeystring-getindexnumber)
+       - [get(indexName:string,key:string)](#getters-getindexintegerstringkeystring-getindexnamestringkeystring)
+       - [get(indexName:string)](#getters-getindexintegerstringkeystring-getindexnamestring)
    - [Working With Indexes](#working-with-indexes)
-     - [indexes()](#working-with-indexes-indexes)
-       - [indexes(indexName:string)](#working-with-indexes-indexes-indexesindexnamestring)
-     - [has()](#working-with-indexes-has)
-       - [has(indexName:string,key:string)](#working-with-indexes-has-hasindexnamestringkeystring)
-       - [has(indexName:string)](#working-with-indexes-has-hasindexnamestring)
-     - [getIndex()](#working-with-indexes-getindex)
-       - [getIndex(indexName:string,key:string)](#working-with-indexes-getindex-getindexindexnamestringkeystring)
-       - [getIndex(indexName:string)](#working-with-indexes-getindex-getindexindexnamestring)
+     - [indexes([indexName:string])](#working-with-indexes-indexesindexnamestring)
+       - [indexes()](#working-with-indexes-indexesindexnamestring-indexes)
+         - [indexes(indexName:string)](#working-with-indexes-indexesindexnamestring-indexes-indexesindexnamestring)
+     - [has([indexName:string[,key:string]])](#working-with-indexes-hasindexnamestringkeystring)
+       - [has(indexName:string,key:string)](#working-with-indexes-hasindexnamestringkeystring-hasindexnamestringkeystring)
+       - [has(indexName:string)](#working-with-indexes-hasindexnamestringkeystring-hasindexnamestring)
+     - [getIndex([indexName:string[,key:string]])](#working-with-indexes-getindexindexnamestringkeystring)
+       - [getIndex(indexName:string,key:string)](#working-with-indexes-getindexindexnamestringkeystring-getindexindexnamestringkeystring)
+       - [getIndex(indexName:string)](#working-with-indexes-getindexindexnamestringkeystring-getindexindexnamestring)
      - [addIndex(indexName:string[,reindex:boolean])](#working-with-indexes-addindexindexnamestringreindexboolean)
        - [addIndex(indexName:string)](#working-with-indexes-addindexindexnamestringreindexboolean-addindexindexnamestring)
        - [addIndex(indexName:string,true)](#working-with-indexes-addindexindexnamestringreindexboolean-addindexindexnamestringtrue)
      - [reindex()](#working-with-indexes-reindex)
    - [Interfaces](#interfaces)
-     - [new Indexed([items:array[,indexes:any[,initializer:function]]])](#interfaces-new-indexeditemsarrayindexesanyinitializerfunction)
-       - [new Indexed()](#interfaces-new-indexeditemsarrayindexesanyinitializerfunction-new-indexed)
-       - [Indexed.factory()](#interfaces-new-indexeditemsarrayindexesanyinitializerfunction-indexedfactory)
-       - [new Indexed(items:array)](#interfaces-new-indexeditemsarrayindexesanyinitializerfunction-new-indexeditemsarray)
-       - [new Indexed(items:array,index:string)](#interfaces-new-indexeditemsarrayindexesanyinitializerfunction-new-indexeditemsarrayindexstring)
-       - [new Indexed(items:array,indexes:array)](#interfaces-new-indexeditemsarrayindexesanyinitializerfunction-new-indexeditemsarrayindexesarray)
-       - [new Indexed(items:array,indexes:object)](#interfaces-new-indexeditemsarrayindexesanyinitializerfunction-new-indexeditemsarrayindexesobject)
-       - [new Indexed(items:array,indexes:any,initializer:function)](#interfaces-new-indexeditemsarrayindexesanyinitializerfunction-new-indexeditemsarrayindexesanyinitializerfunction)
-     - [asClosure([items:array,[indexes:any[,initializer:function,factory:function],receiver:any]])](#interfaces-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany)
-       - [asClosure()](#interfaces-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany-asclosure)
-       - [asClosure(items:array)](#interfaces-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany-asclosureitemsarray)
-       - [asClosure(items:array,indexes:any)](#interfaces-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany-asclosureitemsarrayindexesany)
-       - [asClosure(items:array,indexes:any,initializer:function)](#interfaces-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany-asclosureitemsarrayindexesanyinitializerfunction)
-       - [asClosure(items:array,indexes,initializer:function,factory:function,receiver:object)](#interfaces-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany-asclosureitemsarrayindexesinitializerfunctionfactoryfunctionreceiverobject)
-     - [wrapArray([items:array[,indexes:any[,factory:function]]])](#interfaces-wraparrayitemsarrayindexesanyfactoryfunction)
-       - [wrapArray()](#interfaces-wraparrayitemsarrayindexesanyfactoryfunction-wraparray)
-       - [wrapArray(items:array)](#interfaces-wraparrayitemsarrayindexesanyfactoryfunction-wraparrayitemsarray)
+     - [Class Indexed](#interfaces-class-indexed)
+       - [new Indexed([items:array[,indexes:any[,initializer:function]]])](#interfaces-class-indexed-new-indexeditemsarrayindexesanyinitializerfunction)
+         - [new Indexed()](#interfaces-class-indexed-new-indexeditemsarrayindexesanyinitializerfunction-new-indexed)
+         - [Indexed.factory()](#interfaces-class-indexed-new-indexeditemsarrayindexesanyinitializerfunction-indexedfactory)
+         - [new Indexed(items:array)](#interfaces-class-indexed-new-indexeditemsarrayindexesanyinitializerfunction-new-indexeditemsarray)
+         - [new Indexed(items:array,index:string)](#interfaces-class-indexed-new-indexeditemsarrayindexesanyinitializerfunction-new-indexeditemsarrayindexstring)
+         - [new Indexed(items:array,indexes:array)](#interfaces-class-indexed-new-indexeditemsarrayindexesanyinitializerfunction-new-indexeditemsarrayindexesarray)
+         - [new Indexed(items:array,indexes:object)](#interfaces-class-indexed-new-indexeditemsarrayindexesanyinitializerfunction-new-indexeditemsarrayindexesobject)
+         - [new Indexed(items:array,indexes:any,initializer:function)](#interfaces-class-indexed-new-indexeditemsarrayindexesanyinitializerfunction-new-indexeditemsarrayindexesanyinitializerfunction)
+     - [Closure over variable](#interfaces-closure-over-variable)
+       - [asClosure([items:array,[indexes:any[,initializer:function,factory:function],receiver:any]])](#interfaces-closure-over-variable-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany)
+         - [asClosure()](#interfaces-closure-over-variable-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany-asclosure)
+         - [asClosure(items:array)](#interfaces-closure-over-variable-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany-asclosureitemsarray)
+         - [asClosure(items:array,indexes:any)](#interfaces-closure-over-variable-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany-asclosureitemsarrayindexesany)
+         - [asClosure(items:array,indexes:any,initializer:function)](#interfaces-closure-over-variable-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany-asclosureitemsarrayindexesanyinitializerfunction)
+         - [asClosure(items:array,indexes,initializer:function,factory:function,receiver:object)](#interfaces-closure-over-variable-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany-asclosureitemsarrayindexesinitializerfunctionfactoryfunctionreceiverobject)
+     - [Augment Array](#interfaces-augment-array)
+       - [wrapArray([items:array[,indexes:any[,factory:function]]])](#interfaces-augment-array-wraparrayitemsarrayindexesanyfactoryfunction)
+         - [wrapArray()](#interfaces-augment-array-wraparrayitemsarrayindexesanyfactoryfunction-wraparray)
+         - [wrapArray(items:array)](#interfaces-augment-array-wraparrayitemsarrayindexesanyfactoryfunction-wraparrayitemsarray)
    - [Methods that return a new indexed object](#methods-that-return-a-new-indexed-object)
-     - [findMany(predicate:function|array<string,string>|array<string,RegExp>|array<string,function>)](#methods-that-return-a-new-indexed-object-findmanypredicatefunctionarraystringstringarraystringregexparraystringfunction)
-       - [findMany(fn)](#methods-that-return-a-new-indexed-object-findmanypredicatefunctionarraystringstringarraystringregexparraystringfunction-findmanyfn)
-       - [findMany([propName,prop])](#methods-that-return-a-new-indexed-object-findmanypredicatefunctionarraystringstringarraystringregexparraystringfunction-findmanypropnameprop)
-       - [findMany([propName,fn])](#methods-that-return-a-new-indexed-object-findmanypredicatefunctionarraystringstringarraystringregexparraystringfunction-findmanypropnamefn)
-     - [transform(function[,thisArg])](#methods-that-return-a-new-indexed-object-transformfunctionthisarg)
+     - [Returns a subset of items](#methods-that-return-a-new-indexed-object-returns-a-subset-of-items)
+       - [findMany(predicate:function|array[string,string]|array[string,RegExp]|array[string,function])](#methods-that-return-a-new-indexed-object-returns-a-subset-of-items-findmanypredicatefunctionarraystringstringarraystringregexparraystringfunction)
+         - [findMany(fn)](#methods-that-return-a-new-indexed-object-returns-a-subset-of-items-findmanypredicatefunctionarraystringstringarraystringregexparraystringfunction-findmanyfn)
+         - [findMany([propName,prop])](#methods-that-return-a-new-indexed-object-returns-a-subset-of-items-findmanypredicatefunctionarraystringstringarraystringregexparraystringfunction-findmanypropnameprop)
+         - [findMany([propName,fn])](#methods-that-return-a-new-indexed-object-returns-a-subset-of-items-findmanypredicatefunctionarraystringstringarraystringregexparraystringfunction-findmanypropnamefn)
+       - [transform(function[,thisArg])](#methods-that-return-a-new-indexed-object-returns-a-subset-of-items-transformfunctionthisarg)
    - [Methods that return an iterator](#methods-that-return-an-iterator)
      - [getIterator(key:string)](#methods-that-return-an-iterator-getiteratorkeystring)
-   - [Setters](#setters)
-     - [set(predicate:integer|function|array<string,string>|array<string,regexp>|array<string,function>,value:any)](#setters-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany)
-       - [set(index:integer,value:any)](#setters-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setindexintegervalueany)
-       - [set(predicate:function,value)](#setters-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpredicatefunctionvalue)
-       - [set([propName,predicate],value:any)](#setters-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpropnamepredicatevalueany)
-         - [set([propName,string|number])](#setters-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpropnamepredicatevalueany-setpropnamestringnumber)
-         - [set([propName,regExp],value:any)](#setters-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpropnamepredicatevalueany-setpropnameregexpvalueany)
-         - [set([propName,fn],value:any)](#setters-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpropnamepredicatevalueany-setpropnamefnvalueany)
-     - [replace(predicate,value)](#setters-replacepredicatevalue)
-       - [replace(index:integer,value)](#setters-replacepredicatevalue-replaceindexintegervalue)
-       - [replace(predicate,value)](#setters-replacepredicatevalue-replacepredicatevalue)
-     - [remove(predicate)](#setters-removepredicate)
-       - [remove(index:integer)](#setters-removepredicate-removeindexinteger)
-       - [remove(predicate)](#setters-removepredicate-removepredicate)
-     - [setMany(predicates:function|array<string,...predicate>|array<string|function>,value)](#setters-setmanypredicatesfunctionarraystringpredicatearraystringfunctionvalue)
-       - [setMany(fn,value)](#setters-setmanypredicatesfunctionarraystringpredicatearraystringfunctionvalue-setmanyfnvalue)
-       - [setMany([propName,prop,prop,prop],value)](#setters-setmanypredicatesfunctionarraystringpredicatearraystringfunctionvalue-setmanypropnamepropproppropvalue)
-       - [setMany([propName,fn],value)](#setters-setmanypredicatesfunctionarraystringpredicatearraystringfunctionvalue-setmanypropnamefnvalue)
-     - [removeMany(predicates)](#setters-removemanypredicates)
-       - [removeMany(fn,value)](#setters-removemanypredicates-removemanyfnvalue)
-       - [removeMany([propName,prop,prop,prop],value)](#setters-removemanypredicates-removemanypropnamepropproppropvalue)
-       - [removeMany([propName,fn],value)](#setters-removemanypredicates-removemanypropnamefnvalue)
-     - [initializer(function)](#setters-initializerfunction)
+   - [Set/Update/Remove](#setupdateremove)
+     - [Set, update, or remove a single item](#setupdateremove-set-update-or-remove-a-single-item)
+       - [set(predicate:integer|function|array[string,string]|array[string,regexp]|array[string,function],value:any)](#setupdateremove-set-update-or-remove-a-single-item-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany)
+         - [set(index:integer,value:any)](#setupdateremove-set-update-or-remove-a-single-item-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setindexintegervalueany)
+         - [set(predicate:function,value)](#setupdateremove-set-update-or-remove-a-single-item-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpredicatefunctionvalue)
+         - [set([propName,predicate],value:any)](#setupdateremove-set-update-or-remove-a-single-item-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpropnamepredicatevalueany)
+           - [set([propName,string|number])](#setupdateremove-set-update-or-remove-a-single-item-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpropnamepredicatevalueany-setpropnamestringnumber)
+           - [set([propName,regExp],value:any)](#setupdateremove-set-update-or-remove-a-single-item-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpropnamepredicatevalueany-setpropnameregexpvalueany)
+           - [set([propName,fn],value:any)](#setupdateremove-set-update-or-remove-a-single-item-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpropnamepredicatevalueany-setpropnamefnvalueany)
+       - [replace(predicate,value)](#setupdateremove-set-update-or-remove-a-single-item-replacepredicatevalue)
+         - [replace(index:integer,value)](#setupdateremove-set-update-or-remove-a-single-item-replacepredicatevalue-replaceindexintegervalue)
+         - [replace(predicate,value)](#setupdateremove-set-update-or-remove-a-single-item-replacepredicatevalue-replacepredicatevalue)
+       - [remove(predicate)](#setupdateremove-set-update-or-remove-a-single-item-removepredicate)
+         - [remove(index:integer)](#setupdateremove-set-update-or-remove-a-single-item-removepredicate-removeindexinteger)
+         - [remove(predicate)](#setupdateremove-set-update-or-remove-a-single-item-removepredicate-removepredicate)
+     - [set or remove multiple items](#setupdateremove-set-or-remove-multiple-items)
+       - [setMany(predicates:function|array[string,...predicate]|array[string|function],value)](#setupdateremove-set-or-remove-multiple-items-setmanypredicatesfunctionarraystringpredicatearraystringfunctionvalue)
+         - [setMany(fn,value)](#setupdateremove-set-or-remove-multiple-items-setmanypredicatesfunctionarraystringpredicatearraystringfunctionvalue-setmanyfnvalue)
+         - [setMany([propName,prop,prop,prop],value)](#setupdateremove-set-or-remove-multiple-items-setmanypredicatesfunctionarraystringpredicatearraystringfunctionvalue-setmanypropnamepropproppropvalue)
+         - [setMany([propName,fn],value)](#setupdateremove-set-or-remove-multiple-items-setmanypredicatesfunctionarraystringpredicatearraystringfunctionvalue-setmanypropnamefnvalue)
+       - [removeMany(predicates)](#setupdateremove-set-or-remove-multiple-items-removemanypredicates)
+         - [removeMany(fn,value)](#setupdateremove-set-or-remove-multiple-items-removemanypredicates-removemanyfnvalue)
+         - [removeMany([propName,prop,prop,prop],value)](#setupdateremove-set-or-remove-multiple-items-removemanypredicates-removemanypropnamepropproppropvalue)
+         - [removeMany([propName,fn],value)](#setupdateremove-set-or-remove-multiple-items-removemanypredicates-removemanypropnamefnvalue)
+     - [transform items being pushed](#setupdateremove-transform-items-being-pushed)
+       - [initializer(function)](#setupdateremove-transform-items-being-pushed-initializerfunction)
    - [Static methods and helpers](#static-methods-and-helpers)
      - [isArrayLike(obj)](#static-methods-and-helpers-isarraylikeobj)
    - [Unmodified array methods](#unmodified-array-methods)
@@ -95,22 +103,24 @@
      - [chain()](#utils--convenience-methods-chain)
      - [value()](#utils--convenience-methods-value)
    - [Modified Array Methods](#modified-array-methods)
-     - [lookup methods](#modified-array-methods-lookup-methods)
-       - [filter(function)](#modified-array-methods-lookup-methods-filterfunction)
-       - [findIndex(predicate:function|array<string>|array<string,function>|array<string,RegExp>)](#modified-array-methods-lookup-methods-findindexpredicatefunctionarraystringarraystringfunctionarraystringregexp)
-         - [findIndex(function)](#modified-array-methods-lookup-methods-findindexpredicatefunctionarraystringarraystringfunctionarraystringregexp-findindexfunction)
-         - [findIndex([propName,prop])](#modified-array-methods-lookup-methods-findindexpredicatefunctionarraystringarraystringfunctionarraystringregexp-findindexpropnameprop)
-         - [findIndex([propName,function])](#modified-array-methods-lookup-methods-findindexpredicatefunctionarraystringarraystringfunctionarraystringregexp-findindexpropnamefunction)
-       - [findIndexes(predicate:function|array<string>|array<string,function>|array<string,RegExp>)](#modified-array-methods-lookup-methods-findindexespredicatefunctionarraystringarraystringfunctionarraystringregexp)
-         - [findIndexes(function)](#modified-array-methods-lookup-methods-findindexespredicatefunctionarraystringarraystringfunctionarraystringregexp-findindexesfunction)
-         - [findIndexes([propName,prop,prop,prop],[include])](#modified-array-methods-lookup-methods-findindexespredicatefunctionarraystringarraystringfunctionarraystringregexp-findindexespropnamepropproppropinclude)
-         - [findIndexes([propName,regex])](#modified-array-methods-lookup-methods-findindexespredicatefunctionarraystringarraystringfunctionarraystringregexp-findindexespropnameregex)
-         - [findIndexes([propName,function])](#modified-array-methods-lookup-methods-findindexespredicatefunctionarraystringarraystringfunctionarraystringregexp-findindexespropnamefunction)
-       - [find(predicate:function|array<string>|array<string,function>|array<string,RegExp>)](#modified-array-methods-lookup-methods-findpredicatefunctionarraystringarraystringfunctionarraystringregexp)
-         - [find(function)](#modified-array-methods-lookup-methods-findpredicatefunctionarraystringarraystringfunctionarraystringregexp-findfunction)
-         - [find([propName,prop])](#modified-array-methods-lookup-methods-findpredicatefunctionarraystringarraystringfunctionarraystringregexp-findpropnameprop)
-         - [find([propName,function])](#modified-array-methods-lookup-methods-findpredicatefunctionarraystringarraystringfunctionarraystringregexp-findpropnamefunction)
+     - [Lookup Methods](#modified-array-methods-lookup-methods)
+       - [Return Indexes](#modified-array-methods-lookup-methods-return-indexes)
+         - [findIndex(predicate:function|array[string,string]|array[string,function]|array[string,RegExp])](#modified-array-methods-lookup-methods-return-indexes-findindexpredicatefunctionarraystringstringarraystringfunctionarraystringregexp)
+           - [findIndex(function)](#modified-array-methods-lookup-methods-return-indexes-findindexpredicatefunctionarraystringstringarraystringfunctionarraystringregexp-findindexfunction)
+           - [findIndex([propName,prop])](#modified-array-methods-lookup-methods-return-indexes-findindexpredicatefunctionarraystringstringarraystringfunctionarraystringregexp-findindexpropnameprop)
+           - [findIndex([propName,function])](#modified-array-methods-lookup-methods-return-indexes-findindexpredicatefunctionarraystringstringarraystringfunctionarraystringregexp-findindexpropnamefunction)
+         - [findIndexes(predicate:function|array[string,...string]|array[string,function]|array[string,RegExp])](#modified-array-methods-lookup-methods-return-indexes-findindexespredicatefunctionarraystringstringarraystringfunctionarraystringregexp)
+           - [findIndexes(function)](#modified-array-methods-lookup-methods-return-indexes-findindexespredicatefunctionarraystringstringarraystringfunctionarraystringregexp-findindexesfunction)
+           - [findIndexes([propName,prop,prop,prop],[include])](#modified-array-methods-lookup-methods-return-indexes-findindexespredicatefunctionarraystringstringarraystringfunctionarraystringregexp-findindexespropnamepropproppropinclude)
+           - [findIndexes([propName,regex])](#modified-array-methods-lookup-methods-return-indexes-findindexespredicatefunctionarraystringstringarraystringfunctionarraystringregexp-findindexespropnameregex)
+           - [findIndexes([propName,function])](#modified-array-methods-lookup-methods-return-indexes-findindexespredicatefunctionarraystringstringarraystringfunctionarraystringregexp-findindexespropnamefunction)
+       - [Returns items](#modified-array-methods-lookup-methods-returns-items)
+         - [find(predicate:function|array[string,string]|array[string,function]|array[string,RegExp])](#modified-array-methods-lookup-methods-returns-items-findpredicatefunctionarraystringstringarraystringfunctionarraystringregexp)
+           - [find(function)](#modified-array-methods-lookup-methods-returns-items-findpredicatefunctionarraystringstringarraystringfunctionarraystringregexp-findfunction)
+           - [find([propName,prop])](#modified-array-methods-lookup-methods-returns-items-findpredicatefunctionarraystringstringarraystringfunctionarraystringregexp-findpropnameprop)
+           - [find([propName,function])](#modified-array-methods-lookup-methods-returns-items-findpredicatefunctionarraystringstringarraystringfunctionarraystringregexp-findpropnamefunction)
      - [Mutative Methods](#modified-array-methods-mutative-methods)
+       - [filter(function)](#modified-array-methods-mutative-methods-filterfunction)
        - [concat(...items:any)](#modified-array-methods-mutative-methods-concatitemsany)
        - [pop([receiver:array])](#modified-array-methods-mutative-methods-popreceiverarray)
          - [pop()](#modified-array-methods-mutative-methods-popreceiverarray-pop)
@@ -126,16 +136,16 @@
          - [slice(begin)](#modified-array-methods-mutative-methods-slicebeginintendint-slicebegin)
          - [slice(begin,end)](#modified-array-methods-mutative-methods-slicebeginintendint-slicebeginend)
        - [sort](#modified-array-methods-mutative-methods-sort)
-       - [splice(start:int,removeElements:int[,...items:any])](#modified-array-methods-mutative-methods-splicestartintremoveelementsintitemsany)
-         - [splice,(start,number)](#modified-array-methods-mutative-methods-splicestartintremoveelementsintitemsany-splicestartnumber)
-         - [splice(start,number,...items)](#modified-array-methods-mutative-methods-splicestartintremoveelementsintitemsany-splicestartnumberitems)
+       - [splice(start:int,delete:int[,...items:any])](#modified-array-methods-mutative-methods-splicestartintdeleteintitemsany)
+         - [splice,(start,number)](#modified-array-methods-mutative-methods-splicestartintdeleteintitemsany-splicestartnumber)
+         - [splice(start,number,...items)](#modified-array-methods-mutative-methods-splicestartintdeleteintitemsany-splicestartnumberitems)
 <a name=""></a>
  
 <a name="getters"></a>
 # Getters
-<a name="getters-get"></a>
-## get()
-<a name="getters-get-getindexnumber"></a>
+<a name="getters-getindexintegerstringkeystring"></a>
+## get(index:integer|string[,key:string])
+<a name="getters-getindexintegerstringkeystring-getindexnumber"></a>
 ### get(index:number)
 should return the object specified by index number.
 
@@ -151,8 +161,8 @@ var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }],
 expect(wrapped.get(9)).to.be.undefined;;
 ```
 
-<a name="getters-get-getindexnamekey"></a>
-### get(indexName,key)
+<a name="getters-getindexintegerstringkeystring-getindexnamestringkeystring"></a>
+### get(indexName:string,key:string)
 should return the object specified by indexName and key.
 
 ```js
@@ -167,8 +177,8 @@ var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }],
 expect(wrapped.get('name', 'f')).to.be.undefined;;
 ```
 
-<a name="getters-get-getindexname"></a>
-### get(indexName)
+<a name="getters-getindexintegerstringkeystring-getindexnamestring"></a>
+### get(indexName:string)
 should return a function getInIndex(key) that can be used to retrieve keys.
 
 ```js
@@ -202,8 +212,10 @@ expect(get3('f')).to.eql({ name: 'f' });
 
 <a name="working-with-indexes"></a>
 # Working With Indexes
-<a name="working-with-indexes-indexes"></a>
-## indexes()
+<a name="working-with-indexes-indexesindexnamestring"></a>
+## indexes([indexName:string])
+<a name="working-with-indexes-indexesindexnamestring-indexes"></a>
+### indexes()
 returns the indexes map.
 
 ```js
@@ -212,8 +224,8 @@ expect(wrapped.indexes()).to.be.instanceOf(Map);
 expect(wrapped.indexes().size).to.equal(1);
 ```
 
-<a name="working-with-indexes-indexes-indexesindexnamestring"></a>
-### indexes(indexName:string)
+<a name="working-with-indexes-indexesindexnamestring-indexes-indexesindexnamestring"></a>
+#### indexes(indexName:string)
 returns the specific index map.
 
 ```js
@@ -222,9 +234,9 @@ expect(wrapped.indexes('name')).to.be.instanceOf(Map);
 expect(wrapped.indexes('name').size).to.equal(4);
 ```
 
-<a name="working-with-indexes-has"></a>
-## has()
-<a name="working-with-indexes-has-hasindexnamestringkeystring"></a>
+<a name="working-with-indexes-hasindexnamestringkeystring"></a>
+## has([indexName:string[,key:string]])
+<a name="working-with-indexes-hasindexnamestringkeystring-hasindexnamestringkeystring"></a>
 ### has(indexName:string,key:string)
 should return the true if the object specified by indexName and key exists.
 
@@ -240,7 +252,7 @@ var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }],
 expect(wrapped.has('name', 'f')).to.be.false;
 ```
 
-<a name="working-with-indexes-has-hasindexnamestring"></a>
+<a name="working-with-indexes-hasindexnamestringkeystring-hasindexnamestring"></a>
 ### has(indexName:string)
 should return a function hasInIndex(key) that can be used to check for keys.
 
@@ -269,9 +281,9 @@ expect(has('f')).to.be.false;
 expect(has2('f')).to.be.true;
 ```
 
-<a name="working-with-indexes-getindex"></a>
-## getIndex()
-<a name="working-with-indexes-getindex-getindexindexnamestringkeystring"></a>
+<a name="working-with-indexes-getindexindexnamestringkeystring"></a>
+## getIndex([indexName:string[,key:string]])
+<a name="working-with-indexes-getindexindexnamestringkeystring-getindexindexnamestringkeystring"></a>
 ### getIndex(indexName:string,key:string)
 should return the index if the object specified by indexName and key exists.
 
@@ -287,7 +299,7 @@ var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }],
 expect(wrapped.getIndex('name', 'f')).to.equal(-1);
 ```
 
-<a name="working-with-indexes-getindex-getindexindexnamestring"></a>
+<a name="working-with-indexes-getindexindexnamestringkeystring-getindexindexnamestring"></a>
 ### getIndex(indexName:string)
 should return a function getIndexInIndex(key) that can be used to check for keys.
 
@@ -357,10 +369,12 @@ expect(wrapped.indexes('name').size).to.equal(7);
 
 <a name="interfaces"></a>
 # Interfaces
-<a name="interfaces-new-indexeditemsarrayindexesanyinitializerfunction"></a>
-## new Indexed([items:array[,indexes:any[,initializer:function]]])
-<a name="interfaces-new-indexeditemsarrayindexesanyinitializerfunction-new-indexed"></a>
-### new Indexed()
+<a name="interfaces-class-indexed"></a>
+## Class Indexed
+<a name="interfaces-class-indexed-new-indexeditemsarrayindexesanyinitializerfunction"></a>
+### new Indexed([items:array[,indexes:any[,initializer:function]]])
+<a name="interfaces-class-indexed-new-indexeditemsarrayindexesanyinitializerfunction-new-indexed"></a>
+#### new Indexed()
 should create a new Indexed object.
 
 ```js
@@ -368,8 +382,8 @@ var indexed = new _src2.default();
 expect(indexed).to.be.instanceOf(_src2.default);
 ```
 
-<a name="interfaces-new-indexeditemsarrayindexesanyinitializerfunction-indexedfactory"></a>
-### Indexed.factory()
+<a name="interfaces-class-indexed-new-indexeditemsarrayindexesanyinitializerfunction-indexedfactory"></a>
+#### Indexed.factory()
 should create a new Indexed object.
 
 ```js
@@ -377,8 +391,8 @@ var indexed = IndexedFactory();
 expect(indexed).to.be.instanceOf(_src2.default);
 ```
 
-<a name="interfaces-new-indexeditemsarrayindexesanyinitializerfunction-new-indexeditemsarray"></a>
-### new Indexed(items:array)
+<a name="interfaces-class-indexed-new-indexeditemsarrayindexesanyinitializerfunction-new-indexeditemsarray"></a>
+#### new Indexed(items:array)
 should create a new Indexed object.
 
 ```js
@@ -387,8 +401,8 @@ expect(indexed.get(0)).to.equal('a');
 expect(indexed.size()).to.equal(2);
 ```
 
-<a name="interfaces-new-indexeditemsarrayindexesanyinitializerfunction-new-indexeditemsarrayindexstring"></a>
-### new Indexed(items:array,index:string)
+<a name="interfaces-class-indexed-new-indexeditemsarrayindexesanyinitializerfunction-new-indexeditemsarrayindexstring"></a>
+#### new Indexed(items:array,index:string)
 should set an index.
 
 ```js
@@ -397,8 +411,8 @@ expect(indexed.indexes().has('name')).to.be.true;
 expect(indexed.indexes('name').size).to.equal(0);
 ```
 
-<a name="interfaces-new-indexeditemsarrayindexesanyinitializerfunction-new-indexeditemsarrayindexesarray"></a>
-### new Indexed(items:array,indexes:array)
+<a name="interfaces-class-indexed-new-indexeditemsarrayindexesanyinitializerfunction-new-indexeditemsarrayindexesarray"></a>
+#### new Indexed(items:array,indexes:array)
 should set all the indexes specified.
 
 ```js
@@ -408,8 +422,8 @@ expect(indexed.indexes().has('size')).to.be.true;
 expect(indexed.indexes().size).to.equal(2);
 ```
 
-<a name="interfaces-new-indexeditemsarrayindexesanyinitializerfunction-new-indexeditemsarrayindexesobject"></a>
-### new Indexed(items:array,indexes:object)
+<a name="interfaces-class-indexed-new-indexeditemsarrayindexesanyinitializerfunction-new-indexeditemsarrayindexesobject"></a>
+#### new Indexed(items:array,indexes:object)
 should set all the indexes and values specified.
 
 ```js
@@ -420,8 +434,8 @@ expect(indexed.indexes('name').has('c')).to.be.false;
 expect(indexed.indexes('name').get('a')).to.equal(0);
 ```
 
-<a name="interfaces-new-indexeditemsarrayindexesanyinitializerfunction-new-indexeditemsarrayindexesanyinitializerfunction"></a>
-### new Indexed(items:array,indexes:any,initializer:function)
+<a name="interfaces-class-indexed-new-indexeditemsarrayindexesanyinitializerfunction-new-indexeditemsarrayindexesanyinitializerfunction"></a>
+#### new Indexed(items:array,indexes:any,initializer:function)
 should put all added objects through the initializer.
 
 ```js
@@ -431,10 +445,12 @@ var indexed = new _src2.default([], 'name', function (el) {
 expect(indexed.push('a', 'b', 'c').get('name', 'a')).to.eql({ name: 'a' });
 ```
 
-<a name="interfaces-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany"></a>
-## asClosure([items:array,[indexes:any[,initializer:function,factory:function],receiver:any]])
-<a name="interfaces-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany-asclosure"></a>
-### asClosure()
+<a name="interfaces-closure-over-variable"></a>
+## Closure over variable
+<a name="interfaces-closure-over-variable-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany"></a>
+### asClosure([items:array,[indexes:any[,initializer:function,factory:function],receiver:any]])
+<a name="interfaces-closure-over-variable-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany-asclosure"></a>
+#### asClosure()
 should return an object similar to an Indexed.
 
 ```js
@@ -443,8 +459,8 @@ expect(closed).to.not.be.instanceOf(_src2.default);
 expect(closed).to.have.property('indexes');
 ```
 
-<a name="interfaces-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany-asclosureitemsarray"></a>
-### asClosure(items:array)
+<a name="interfaces-closure-over-variable-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany-asclosureitemsarray"></a>
+#### asClosure(items:array)
 should create a closure around the provided array.
 
 ```js
@@ -453,8 +469,8 @@ var closed = asClosure(arr);
 expect(closed.value()).to.equal(arr);
 ```
 
-<a name="interfaces-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany-asclosureitemsarrayindexesany"></a>
-### asClosure(items:array,indexes:any)
+<a name="interfaces-closure-over-variable-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany-asclosureitemsarrayindexesany"></a>
+#### asClosure(items:array,indexes:any)
 should create the given indexes.
 
 ```js
@@ -463,8 +479,8 @@ expect(closed).to.have.property('indexes');
 expect(closed.indexes().has('name')).to.be.true;
 ```
 
-<a name="interfaces-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany-asclosureitemsarrayindexesanyinitializerfunction"></a>
-### asClosure(items:array,indexes:any,initializer:function)
+<a name="interfaces-closure-over-variable-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany-asclosureitemsarrayindexesanyinitializerfunction"></a>
+#### asClosure(items:array,indexes:any,initializer:function)
 should use the provided initializer.
 
 ```js
@@ -474,8 +490,8 @@ var closed = asClosure([], 'name', function (el) {
 expect(closed.push('a', 'b', 'c').get('name', 'a')).to.eql({ name: 'a' });
 ```
 
-<a name="interfaces-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany-asclosureitemsarrayindexesinitializerfunctionfactoryfunctionreceiverobject"></a>
-### asClosure(items:array,indexes,initializer:function,factory:function,receiver:object)
+<a name="interfaces-closure-over-variable-asclosureitemsarrayindexesanyinitializerfunctionfactoryfunctionreceiverany-asclosureitemsarrayindexesinitializerfunctionfactoryfunctionreceiverobject"></a>
+#### asClosure(items:array,indexes,initializer:function,factory:function,receiver:object)
 should use the factory.
 
 ```js
@@ -493,8 +509,10 @@ it('should add the methods to the provided object', function () {
 });
 ```
 
-<a name="interfaces-wraparrayitemsarrayindexesanyfactoryfunction"></a>
-## wrapArray([items:array[,indexes:any[,factory:function]]])
+<a name="interfaces-augment-array"></a>
+## Augment Array
+<a name="interfaces-augment-array-wraparrayitemsarrayindexesanyfactoryfunction"></a>
+### wrapArray([items:array[,indexes:any[,factory:function]]])
 should leave the array prototype unmodified.
 
 ```js
@@ -503,8 +521,8 @@ expect(arr).to.be.instanceOf(Array);
 expect(Array.isArray(arr)).to.be.true;
 ```
 
-<a name="interfaces-wraparrayitemsarrayindexesanyfactoryfunction-wraparray"></a>
-### wrapArray()
+<a name="interfaces-augment-array-wraparrayitemsarrayindexesanyfactoryfunction-wraparray"></a>
+#### wrapArray()
 should return an augmented array.
 
 ```js
@@ -512,8 +530,8 @@ var arr = wrapArray();
 expect(arr).to.have.property('indexes');
 ```
 
-<a name="interfaces-wraparrayitemsarrayindexesanyfactoryfunction-wraparrayitemsarray"></a>
-### wrapArray(items:array)
+<a name="interfaces-augment-array-wraparrayitemsarrayindexesanyfactoryfunction-wraparrayitemsarray"></a>
+#### wrapArray(items:array)
 should augment the array with all methods.
 
 ```js
@@ -524,10 +542,12 @@ expect(arr).to.have.property('indexes');
 
 <a name="methods-that-return-a-new-indexed-object"></a>
 # Methods that return a new indexed object
-<a name="methods-that-return-a-new-indexed-object-findmanypredicatefunctionarraystringstringarraystringregexparraystringfunction"></a>
-## findMany(predicate:function|array<string,string>|array<string,RegExp>|array<string,function>)
-<a name="methods-that-return-a-new-indexed-object-findmanypredicatefunctionarraystringstringarraystringregexparraystringfunction-findmanyfn"></a>
-### findMany(fn)
+<a name="methods-that-return-a-new-indexed-object-returns-a-subset-of-items"></a>
+## Returns a subset of items
+<a name="methods-that-return-a-new-indexed-object-returns-a-subset-of-items-findmanypredicatefunctionarraystringstringarraystringregexparraystringfunction"></a>
+### findMany(predicate:function|array[string,string]|array[string,RegExp]|array[string,function])
+<a name="methods-that-return-a-new-indexed-object-returns-a-subset-of-items-findmanypredicatefunctionarraystringstringarraystringregexparraystringfunction-findmanyfn"></a>
+#### findMany(fn)
 should return the objects when the provided function returns true.
 
 ```js
@@ -559,8 +579,8 @@ expect(objs).to.have.property('indexes');
 expect(objs.indexes()).to.be.instanceOf(Map);
 ```
 
-<a name="methods-that-return-a-new-indexed-object-findmanypredicatefunctionarraystringstringarraystringregexparraystringfunction-findmanypropnameprop"></a>
-### findMany([propName,prop])
+<a name="methods-that-return-a-new-indexed-object-returns-a-subset-of-items-findmanypredicatefunctionarraystringstringarraystringregexparraystringfunction-findmanypropnameprop"></a>
+#### findMany([propName,prop])
 should return the objects index who's property `propName` is equal to the provided `prop`.
 
 ```js
@@ -579,8 +599,8 @@ var get = wrapped.get('name');
 expect(objs).to.eql([get('a'), get('c')]);
 ```
 
-<a name="methods-that-return-a-new-indexed-object-findmanypredicatefunctionarraystringstringarraystringregexparraystringfunction-findmanypropnamefn"></a>
-### findMany([propName,fn])
+<a name="methods-that-return-a-new-indexed-object-returns-a-subset-of-items-findmanypredicatefunctionarraystringstringarraystringregexparraystringfunction-findmanypropnamefn"></a>
+#### findMany([propName,fn])
 should return the objects for which fn returns true.
 
 ```js
@@ -604,8 +624,8 @@ var objs = wrapped.findMany(['name', function (key) {
 expect(objs.length).to.be.equal(0);
 ```
 
-<a name="methods-that-return-a-new-indexed-object-transformfunctionthisarg"></a>
-## transform(function[,thisArg])
+<a name="methods-that-return-a-new-indexed-object-returns-a-subset-of-items-transformfunctionthisarg"></a>
+### transform(function[,thisArg])
 should be an equivalent to map(), with a contract that returned objects are indexable.
 
 ```js
@@ -745,12 +765,14 @@ expect(function () {
 }).to.throw();
 ```
 
-<a name="setters"></a>
-# Setters
-<a name="setters-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany"></a>
-## set(predicate:integer|function|array<string,string>|array<string,regexp>|array<string,function>,value:any)
-<a name="setters-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setindexintegervalueany"></a>
-### set(index:integer,value:any)
+<a name="setupdateremove"></a>
+# Set/Update/Remove
+<a name="setupdateremove-set-update-or-remove-a-single-item"></a>
+## Set, update, or remove a single item
+<a name="setupdateremove-set-update-or-remove-a-single-item-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany"></a>
+### set(predicate:integer|function|array[string,string]|array[string,regexp]|array[string,function],value:any)
+<a name="setupdateremove-set-update-or-remove-a-single-item-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setindexintegervalueany"></a>
+#### set(index:integer,value:any)
 should work like push if index is not specified.
 
 ```js
@@ -834,8 +856,8 @@ expect(result.length).to.equal(4);
 expect(result.get('name')('a')).to.eql({ name: 'a', newProp: 2 });
 ```
 
-<a name="setters-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpredicatefunctionvalue"></a>
-### set(predicate:function,value)
+<a name="setupdateremove-set-update-or-remove-a-single-item-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpredicatefunctionvalue"></a>
+#### set(predicate:function,value)
 should set the element where provided predicate is true.
 
 ```js
@@ -849,10 +871,10 @@ expect(result.length).to.equal(4);
 expect(result.get('name')('a')).to.eql({ name: 'a', newProp: 2 });
 ```
 
-<a name="setters-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpropnamepredicatevalueany"></a>
-### set([propName,predicate],value:any)
-<a name="setters-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpropnamepredicatevalueany-setpropnamestringnumber"></a>
-#### set([propName,string|number])
+<a name="setupdateremove-set-update-or-remove-a-single-item-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpropnamepredicatevalueany"></a>
+#### set([propName,predicate],value:any)
+<a name="setupdateremove-set-update-or-remove-a-single-item-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpropnamepredicatevalueany-setpropnamestringnumber"></a>
+##### set([propName,string|number])
 should set the element where provided predicate is true.
 
 ```js
@@ -864,8 +886,8 @@ expect(result.length).to.equal(4);
 expect(result.get('name')('a')).to.eql({ name: 'a', newProp: 2 });
 ```
 
-<a name="setters-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpropnamepredicatevalueany-setpropnameregexpvalueany"></a>
-#### set([propName,regExp],value:any)
+<a name="setupdateremove-set-update-or-remove-a-single-item-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpropnamepredicatevalueany-setpropnameregexpvalueany"></a>
+##### set([propName,regExp],value:any)
 should set the element where provided predicate is true.
 
 ```js
@@ -877,8 +899,8 @@ expect(result.length).to.equal(4);
 expect(result.get('name')('b')).to.eql({ name: 'b', newProp: 2 });
 ```
 
-<a name="setters-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpropnamepredicatevalueany-setpropnamefnvalueany"></a>
-#### set([propName,fn],value:any)
+<a name="setupdateremove-set-update-or-remove-a-single-item-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpropnamepredicatevalueany-setpropnamefnvalueany"></a>
+##### set([propName,fn],value:any)
 should set the element where provided predicate is true.
 
 ```js
@@ -892,10 +914,10 @@ expect(result.length).to.equal(4);
 expect(result.get('name')('a')).to.eql({ name: 'a', newProp: 2 });
 ```
 
-<a name="setters-replacepredicatevalue"></a>
-## replace(predicate,value)
-<a name="setters-replacepredicatevalue-replaceindexintegervalue"></a>
-### replace(index:integer,value)
+<a name="setupdateremove-set-update-or-remove-a-single-item-replacepredicatevalue"></a>
+### replace(predicate,value)
+<a name="setupdateremove-set-update-or-remove-a-single-item-replacepredicatevalue-replaceindexintegervalue"></a>
+#### replace(index:integer,value)
 should replace the specified objects and indexes.
 
 ```js
@@ -906,8 +928,8 @@ expect(result.indexes('name').size).to.equal(3);
 expect(result.indexes('name').get('d')).to.be.undefined;;
 ```
 
-<a name="setters-replacepredicatevalue-replacepredicatevalue"></a>
-### replace(predicate,value)
+<a name="setupdateremove-set-update-or-remove-a-single-item-replacepredicatevalue-replacepredicatevalue"></a>
+#### replace(predicate,value)
 should replace the object where predicate is true.
 
 ```js
@@ -918,10 +940,10 @@ expect(result.indexes('name').size).to.equal(3);
 expect(result.indexes('name').get('d')).to.be.undefined;;
 ```
 
-<a name="setters-removepredicate"></a>
-## remove(predicate)
-<a name="setters-removepredicate-removeindexinteger"></a>
-### remove(index:integer)
+<a name="setupdateremove-set-update-or-remove-a-single-item-removepredicate"></a>
+### remove(predicate)
+<a name="setupdateremove-set-update-or-remove-a-single-item-removepredicate-removeindexinteger"></a>
+#### remove(index:integer)
 should remove the specified objects and indexes.
 
 ```js
@@ -933,8 +955,8 @@ expect(result.indexes('name').size).to.equal(3);
 expect(result.indexes('name').get('a')).to.equal(1);
 ```
 
-<a name="setters-removepredicate-removepredicate"></a>
-### remove(predicate)
+<a name="setupdateremove-set-update-or-remove-a-single-item-removepredicate-removepredicate"></a>
+#### remove(predicate)
 should remove the object where predicate is true.
 
 ```js
@@ -946,10 +968,12 @@ expect(result.indexes('name').size).to.equal(3);
 expect(result.indexes('name').get('a')).to.equal(1);
 ```
 
-<a name="setters-setmanypredicatesfunctionarraystringpredicatearraystringfunctionvalue"></a>
-## setMany(predicates:function|array<string,...predicate>|array<string|function>,value)
-<a name="setters-setmanypredicatesfunctionarraystringpredicatearraystringfunctionvalue-setmanyfnvalue"></a>
-### setMany(fn,value)
+<a name="setupdateremove-set-or-remove-multiple-items"></a>
+## set or remove multiple items
+<a name="setupdateremove-set-or-remove-multiple-items-setmanypredicatesfunctionarraystringpredicatearraystringfunctionvalue"></a>
+### setMany(predicates:function|array[string,...predicate]|array[string|function],value)
+<a name="setupdateremove-set-or-remove-multiple-items-setmanypredicatesfunctionarraystringpredicatearraystringfunctionvalue-setmanyfnvalue"></a>
+#### setMany(fn,value)
 should set the objects where the provided function returns true.
 
 ```js
@@ -962,8 +986,8 @@ expect(result[1]).to.have.property('smallerThanTwo');
 expect(result[2]).to.not.have.property('smallerThanTwo');
 ```
 
-<a name="setters-setmanypredicatesfunctionarraystringpredicatearraystringfunctionvalue-setmanypropnamepropproppropvalue"></a>
-### setMany([propName,prop,prop,prop],value)
+<a name="setupdateremove-set-or-remove-multiple-items-setmanypredicatesfunctionarraystringpredicatearraystringfunctionvalue-setmanypropnamepropproppropvalue"></a>
+#### setMany([propName,prop,prop,prop],value)
 should set the objects who's property `propName` is equal to one of the provided `prop`.
 
 ```js
@@ -986,8 +1010,8 @@ expect(get('c')).to.have.property('favoriteLetters');
 expect(get('a')).to.not.have.property('favoriteLetters');
 ```
 
-<a name="setters-setmanypredicatesfunctionarraystringpredicatearraystringfunctionvalue-setmanypropnamefnvalue"></a>
-### setMany([propName,fn],value)
+<a name="setupdateremove-set-or-remove-multiple-items-setmanypredicatesfunctionarraystringpredicatearraystringfunctionvalue-setmanypropnamefnvalue"></a>
+#### setMany([propName,fn],value)
 should set the objects for which fn returns true.
 
 ```js
@@ -1002,10 +1026,10 @@ expect(get('c')).to.have.property('favoriteLetters');
 expect(get('a')).to.not.have.property('favoriteLetters');
 ```
 
-<a name="setters-removemanypredicates"></a>
-## removeMany(predicates)
-<a name="setters-removemanypredicates-removemanyfnvalue"></a>
-### removeMany(fn,value)
+<a name="setupdateremove-set-or-remove-multiple-items-removemanypredicates"></a>
+### removeMany(predicates)
+<a name="setupdateremove-set-or-remove-multiple-items-removemanypredicates-removemanyfnvalue"></a>
+#### removeMany(fn,value)
 should remove the objects where the provided function returns true.
 
 ```js
@@ -1016,8 +1040,8 @@ var result = wrapped.removeMany(function (el, i) {
 expect(result[0]).to.eql({ name: 'a' });
 ```
 
-<a name="setters-removemanypredicates-removemanypropnamepropproppropvalue"></a>
-### removeMany([propName,prop,prop,prop],value)
+<a name="setupdateremove-set-or-remove-multiple-items-removemanypredicates-removemanypropnamepropproppropvalue"></a>
+#### removeMany([propName,prop,prop,prop],value)
 should remove the objects who's property `propName` is equal to one of the provided `prop`.
 
 ```js
@@ -1039,8 +1063,8 @@ expect(get('d')).to.be.undefined;;
 expect(get('c')).to.be.undefined;;
 ```
 
-<a name="setters-removemanypredicates-removemanypropnamefnvalue"></a>
-### removeMany([propName,fn],value)
+<a name="setupdateremove-set-or-remove-multiple-items-removemanypredicates-removemanypropnamefnvalue"></a>
+#### removeMany([propName,fn],value)
 should remove the objects for which fn returns true.
 
 ```js
@@ -1054,8 +1078,10 @@ expect(get('d')).to.be.undefined;;
 expect(get('c')).to.be.undefined;;
 ```
 
-<a name="setters-initializerfunction"></a>
-## initializer(function)
+<a name="setupdateremove-transform-items-being-pushed"></a>
+## transform items being pushed
+<a name="setupdateremove-transform-items-being-pushed-initializerfunction"></a>
+### initializer(function)
 should put all new items through the provided initializer function.
 
 ```js
@@ -1474,27 +1500,13 @@ expect(wrapped.value()).to.equal(arr);
 <a name="modified-array-methods"></a>
 # Modified Array Methods
 <a name="modified-array-methods-lookup-methods"></a>
-## lookup methods
-<a name="modified-array-methods-lookup-methods-filterfunction"></a>
-### filter(function)
-should reindex.
-
-```js
-var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
-var closed = asClosure([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
-function filter(el) {
-	return (/a|e|d/.test(el.name)
-	);
-}
-var resultWrapped = wrapped.filter(filter);
-var resultClosed = closed.filter(filter);
-verify(resultWrapped, resultClosed, 2);
-```
-
-<a name="modified-array-methods-lookup-methods-findindexpredicatefunctionarraystringarraystringfunctionarraystringregexp"></a>
-### findIndex(predicate:function|array<string>|array<string,function>|array<string,RegExp>)
-<a name="modified-array-methods-lookup-methods-findindexpredicatefunctionarraystringarraystringfunctionarraystringregexp-findindexfunction"></a>
-#### findIndex(function)
+## Lookup Methods
+<a name="modified-array-methods-lookup-methods-return-indexes"></a>
+### Return Indexes
+<a name="modified-array-methods-lookup-methods-return-indexes-findindexpredicatefunctionarraystringstringarraystringfunctionarraystringregexp"></a>
+#### findIndex(predicate:function|array[string,string]|array[string,function]|array[string,RegExp])
+<a name="modified-array-methods-lookup-methods-return-indexes-findindexpredicatefunctionarraystringstringarraystringfunctionarraystringregexp-findindexfunction"></a>
+##### findIndex(function)
 should return the object index when the provided function returns true.
 
 ```js
@@ -1515,8 +1527,8 @@ var index = wrapped.findIndex(function (el) {
 expect(index).to.equal(-1);
 ```
 
-<a name="modified-array-methods-lookup-methods-findindexpredicatefunctionarraystringarraystringfunctionarraystringregexp-findindexpropnameprop"></a>
-#### findIndex([propName,prop])
+<a name="modified-array-methods-lookup-methods-return-indexes-findindexpredicatefunctionarraystringstringarraystringfunctionarraystringregexp-findindexpropnameprop"></a>
+##### findIndex([propName,prop])
 should return the object index who's property `propName` is equal to the provided `prop`.
 
 ```js
@@ -1534,8 +1546,8 @@ var indexes = wrapped.indexes('name');
 expect(index).to.equal(indexes.get('a'));
 ```
 
-<a name="modified-array-methods-lookup-methods-findindexpredicatefunctionarraystringarraystringfunctionarraystringregexp-findindexpropnamefunction"></a>
-#### findIndex([propName,function])
+<a name="modified-array-methods-lookup-methods-return-indexes-findindexpredicatefunctionarraystringstringarraystringfunctionarraystringregexp-findindexpropnamefunction"></a>
+##### findIndex([propName,function])
 should give to the function the arguments: key, object, keys, array,keyNumber.
 
 ```js
@@ -1577,10 +1589,10 @@ var index = wrapped.findIndex(['name', function (key) {
 expect(index).to.be.equal(-1);
 ```
 
-<a name="modified-array-methods-lookup-methods-findindexespredicatefunctionarraystringarraystringfunctionarraystringregexp"></a>
-### findIndexes(predicate:function|array<string>|array<string,function>|array<string,RegExp>)
-<a name="modified-array-methods-lookup-methods-findindexespredicatefunctionarraystringarraystringfunctionarraystringregexp-findindexesfunction"></a>
-#### findIndexes(function)
+<a name="modified-array-methods-lookup-methods-return-indexes-findindexespredicatefunctionarraystringstringarraystringfunctionarraystringregexp"></a>
+#### findIndexes(predicate:function|array[string,...string]|array[string,function]|array[string,RegExp])
+<a name="modified-array-methods-lookup-methods-return-indexes-findindexespredicatefunctionarraystringstringarraystringfunctionarraystringregexp-findindexesfunction"></a>
+##### findIndexes(function)
 should return an array of indexes when the provided function returns true.
 
 ```js
@@ -1591,8 +1603,8 @@ var indexes = wrapped.findIndexes(function (el) {
 expect(indexes).to.eql([0, 1, 2, 3]);
 ```
 
-<a name="modified-array-methods-lookup-methods-findindexespredicatefunctionarraystringarraystringfunctionarraystringregexp-findindexespropnamepropproppropinclude"></a>
-#### findIndexes([propName,prop,prop,prop],[include])
+<a name="modified-array-methods-lookup-methods-return-indexes-findindexespredicatefunctionarraystringstringarraystringfunctionarraystringregexp-findindexespropnamepropproppropinclude"></a>
+##### findIndexes([propName,prop,prop,prop],[include])
 should return the indexes for object where `propName` is equal to any of the provided `props`.
 
 ```js
@@ -1609,8 +1621,8 @@ var indexes = wrapped.findIndexes(['name', 'a', 'n', 'b', 'c', 'z'], true);
 expect(indexes).to.eql([2, -1, 0, 3, -1]);
 ```
 
-<a name="modified-array-methods-lookup-methods-findindexespredicatefunctionarraystringarraystringfunctionarraystringregexp-findindexespropnameregex"></a>
-#### findIndexes([propName,regex])
+<a name="modified-array-methods-lookup-methods-return-indexes-findindexespredicatefunctionarraystringstringarraystringfunctionarraystringregexp-findindexespropnameregex"></a>
+##### findIndexes([propName,regex])
 should return the indexes for which fn returns true.
 
 ```js
@@ -1619,8 +1631,8 @@ var index = wrapped.findIndexes(['name', /c|a/]);
 expect(index).to.be.eql([2, 3]);
 ```
 
-<a name="modified-array-methods-lookup-methods-findindexespredicatefunctionarraystringarraystringfunctionarraystringregexp-findindexespropnamefunction"></a>
-#### findIndexes([propName,function])
+<a name="modified-array-methods-lookup-methods-return-indexes-findindexespredicatefunctionarraystringstringarraystringfunctionarraystringregexp-findindexespropnamefunction"></a>
+##### findIndexes([propName,function])
 should return the indexes for which fn returns true.
 
 ```js
@@ -1632,10 +1644,12 @@ var index = wrapped.findIndexes(['name', function (key) {
 expect(index).to.be.eql([2, 3]);
 ```
 
-<a name="modified-array-methods-lookup-methods-findpredicatefunctionarraystringarraystringfunctionarraystringregexp"></a>
-### find(predicate:function|array<string>|array<string,function>|array<string,RegExp>)
-<a name="modified-array-methods-lookup-methods-findpredicatefunctionarraystringarraystringfunctionarraystringregexp-findfunction"></a>
-#### find(function)
+<a name="modified-array-methods-lookup-methods-returns-items"></a>
+### Returns items
+<a name="modified-array-methods-lookup-methods-returns-items-findpredicatefunctionarraystringstringarraystringfunctionarraystringregexp"></a>
+#### find(predicate:function|array[string,string]|array[string,function]|array[string,RegExp])
+<a name="modified-array-methods-lookup-methods-returns-items-findpredicatefunctionarraystringstringarraystringfunctionarraystringregexp-findfunction"></a>
+##### find(function)
 should return the object when the provided function returns true.
 
 ```js
@@ -1656,8 +1670,8 @@ var obj = wrapped.find(function (el) {
 expect(obj).to.be.undefined;
 ```
 
-<a name="modified-array-methods-lookup-methods-findpredicatefunctionarraystringarraystringfunctionarraystringregexp-findpropnameprop"></a>
-#### find([propName,prop])
+<a name="modified-array-methods-lookup-methods-returns-items-findpredicatefunctionarraystringstringarraystringfunctionarraystringregexp-findpropnameprop"></a>
+##### find([propName,prop])
 should return the object index who's property `propName` is equal to the provided `prop`.
 
 ```js
@@ -1674,8 +1688,8 @@ var obj = wrapped.find(['name', /a|c/]);
 expect(obj).to.equal(wrapped[wrapped.indexes('name').get('a')]);
 ```
 
-<a name="modified-array-methods-lookup-methods-findpredicatefunctionarraystringarraystringfunctionarraystringregexp-findpropnamefunction"></a>
-#### find([propName,function])
+<a name="modified-array-methods-lookup-methods-returns-items-findpredicatefunctionarraystringstringarraystringfunctionarraystringregexp-findpropnamefunction"></a>
+##### find([propName,function])
 should return the object for which fn returns true.
 
 ```js
@@ -1700,6 +1714,22 @@ expect(obj).to.be.be.undefined;;
 
 <a name="modified-array-methods-mutative-methods"></a>
 ## Mutative Methods
+<a name="modified-array-methods-mutative-methods-filterfunction"></a>
+### filter(function)
+should reindex.
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+var closed = asClosure([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+function filter(el) {
+	return (/a|e|d/.test(el.name)
+	);
+}
+var resultWrapped = wrapped.filter(filter);
+var resultClosed = closed.filter(filter);
+verify(resultWrapped, resultClosed, 2);
+```
+
 <a name="modified-array-methods-mutative-methods-concatitemsany"></a>
 ### concat(...items:any)
 should work like default for simple arrays.
@@ -2005,8 +2035,8 @@ try {
 expect(order).to.eql(model);
 ```
 
-<a name="modified-array-methods-mutative-methods-splicestartintremoveelementsintitemsany"></a>
-### splice(start:int,removeElements:int[,...items:any])
+<a name="modified-array-methods-mutative-methods-splicestartintdeleteintitemsany"></a>
+### splice(start:int,delete:int[,...items:any])
 should reindex.
 
 ```js
@@ -2020,7 +2050,7 @@ result.forEach(function (v, k) {
 expect(keys).to.eql(['b', 'd', 'f']);
 ```
 
-<a name="modified-array-methods-mutative-methods-splicestartintremoveelementsintitemsany-splicestartnumber"></a>
+<a name="modified-array-methods-mutative-methods-splicestartintdeleteintitemsany-splicestartnumber"></a>
 #### splice,(start,number)
 should delete the specified elements.
 
@@ -2032,7 +2062,7 @@ var results = wrapped.splice(2, 1);
 expect(results).to.eql(arr);
 ```
 
-<a name="modified-array-methods-mutative-methods-splicestartintremoveelementsintitemsany-splicestartnumberitems"></a>
+<a name="modified-array-methods-mutative-methods-splicestartintdeleteintitemsany-splicestartnumberitems"></a>
 #### splice(start,number,...items)
 should insert elements if specified.
 

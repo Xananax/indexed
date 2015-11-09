@@ -11,7 +11,154 @@ function verify(wrapped,closed,n){
 }
 
 describe('Modified Array Methods',()=>{
-	describe('lookup methods',()=>{
+	describe('Lookup Methods',()=>{
+		describe('Return Indexes',()=>{
+			describe('findIndex(predicate:function|array[string,string]|array[string,function]|array[string,RegExp])',()=>{
+				describe('findIndex(function)',()=>{
+					it('should return the object index when the provided function returns true',()=>{
+						var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+						var index = wrapped.findIndex((el)=>{
+							return el.name=='d';
+						});
+						expect(index).to.equal(wrapped.indexes('name').get('d'))
+					})
+					it('should return -1 if no object matches the function',()=>{
+						var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+						var index = wrapped.findIndex((el)=>{
+							return el.name=='e';
+						});
+						expect(index).to.equal(-1)
+					})
+				})
+				describe('findIndex([propName,prop])',()=>{
+					it('should return the object index who\'s property `propName` is equal to the provided `prop`',()=>{
+						var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+						var index = wrapped.findIndex(['name','d']);
+						expect(index).to.equal(wrapped.indexes('name').get('d'))
+					})
+					it('should return the object index who\'s property `propName` matches the provided RegExp `prop`',()=>{
+						var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+						var index = wrapped.findIndex(['name',/a|c/]);
+						var indexes = wrapped.indexes('name');
+						expect(index).to.equal(indexes.get('a'))
+					})
+				})
+				describe('findIndex([propName,function])',()=>{
+					it('should give to the function the arguments: key, object, keys, array,keyNumber',(done)=>{
+						var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+						var index = wrapped.findIndex(['name',(key,obj,map,arr,n)=>{
+							expect(key).to.be.a('string');
+							expect(key).to.equal(wrapped[0].name)
+
+							expect(obj).to.be.an('object')
+							expect(obj).to.equal(wrapped[0])
+
+							expect(map).to.be.instanceOf(Map)
+
+							expect(arr).to.be.an('array')
+							expect(arr).to.eql(wrapped)
+
+							expect(n).to.be.a('number')
+							expect(n).to.equal(0)
+
+							done();
+							return BREAK;
+						}]);
+					})
+					it('should return the object index for which fn returns true',()=>{
+						var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+						var index = wrapped.findIndex(['name',(key)=>/b/.test(key)])
+						expect(index).to.be.equal(wrapped.indexes('name').get('b'));
+					})
+					it('should return -1 if no object returned true',()=>{
+						var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+						var index = wrapped.findIndex(['name',(key)=>/n/.test(key)])
+						expect(index).to.be.equal(-1);
+					})
+				})
+			})
+			describe('findIndexes(predicate:function|array[string,...string]|array[string,function]|array[string,RegExp])',()=>{
+				describe('findIndexes(function)',()=>{
+					it('should return an array of indexes when the provided function returns true',()=>{
+						var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+						var indexes = wrapped.findIndexes(el=>el.name!=='z');
+						expect(indexes).to.eql([0,1,2,3])
+					})
+				})
+				describe('findIndexes([propName,prop,prop,prop],[include])',()=>{
+					it('should return the indexes for object where `propName` is equal to any of the provided `props`',()=>{
+						var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+						var indexes = wrapped.findIndexes(['name','a','n','b','c','z']);
+						expect(indexes).to.eql([2,0,3])
+					})
+					it('should include falsy indexes if include is true',()=>{
+						var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+						var indexes = wrapped.findIndexes(['name','a','n','b','c','z'],true);
+						expect(indexes).to.eql([2,-1,0,3,-1])
+					})
+				})
+				describe('findIndexes([propName,regex])',()=>{
+					it('should return the indexes for which fn returns true',()=>{
+						var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+						var index = wrapped.findIndexes(['name',/c|a/])
+						expect(index).to.be.eql([2,3]);
+					})
+				})
+				describe('findIndexes([propName,function])',()=>{
+					it('should return the indexes for which fn returns true',()=>{
+						var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+						var index = wrapped.findIndexes(['name',(key)=>/a|c/.test(key)])
+						expect(index).to.be.eql([2,3]);
+					})
+				})
+			})
+		})
+		describe('Returns items',()=>{	
+			describe('find(predicate:function|array[string,string]|array[string,function]|array[string,RegExp])',()=>{
+				describe('find(function)',()=>{
+					it('should return the object when the provided function returns true',()=>{
+						var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+						var obj = wrapped.find((el)=>{
+							return el.name=='d';
+						});
+						expect(obj).to.eql(wrapped[wrapped.indexes('name').get('d')])
+					})
+					it('should return undefined if no object matches the function',()=>{
+						var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+						var obj = wrapped.find((el)=>{
+							return el.name=='e';
+						});
+						expect(obj).to.be.undefined;
+					})
+				})
+				describe('find([propName,prop])',()=>{
+					it('should return the object index who\'s property `propName` is equal to the provided `prop`',()=>{
+						var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+						var obj = wrapped.find(['name','d']);
+						expect(obj).to.equal(wrapped[wrapped.indexes('name').get('d')])
+					})
+					it('should return the object index who\'s property `propName` matches the provided RegExp `prop`',()=>{
+						var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+						var obj = wrapped.find(['name',/a|c/]);
+						expect(obj).to.equal(wrapped[wrapped.indexes('name').get('a')])
+					})
+				})
+				describe('find([propName,function])',()=>{
+					it('should return the object for which fn returns true',()=>{
+						var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+						var obj = wrapped.find(['name',(key)=>/b/.test(key)])
+						expect(obj).to.be.equal(wrapped[wrapped.indexes('name').get('b')]);
+					})
+					it('should return undefined if no object returned true',()=>{
+						var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+						var obj = wrapped.find(['name',(key)=>/n/.test(key)]);
+						expect(obj).to.be.be.undefined;;
+					})
+				})
+			})
+		})
+	})
+	describe('Mutative Methods',()=>{
 		describe('filter(function)',()=>{
 			it('should reindex',()=>{
 				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
@@ -24,149 +171,6 @@ describe('Modified Array Methods',()=>{
 				verify(resultWrapped,resultClosed,2)
 			})
 		})
-		describe('findIndex(predicate:function|array<string>|array<string,function>|array<string,RegExp>)',()=>{
-			describe('findIndex(function)',()=>{
-				it('should return the object index when the provided function returns true',()=>{
-					var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
-					var index = wrapped.findIndex((el)=>{
-						return el.name=='d';
-					});
-					expect(index).to.equal(wrapped.indexes('name').get('d'))
-				})
-				it('should return -1 if no object matches the function',()=>{
-					var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
-					var index = wrapped.findIndex((el)=>{
-						return el.name=='e';
-					});
-					expect(index).to.equal(-1)
-				})
-			})
-			describe('findIndex([propName,prop])',()=>{
-				it('should return the object index who\'s property `propName` is equal to the provided `prop`',()=>{
-					var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
-					var index = wrapped.findIndex(['name','d']);
-					expect(index).to.equal(wrapped.indexes('name').get('d'))
-				})
-				it('should return the object index who\'s property `propName` matches the provided RegExp `prop`',()=>{
-					var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
-					var index = wrapped.findIndex(['name',/a|c/]);
-					var indexes = wrapped.indexes('name');
-					expect(index).to.equal(indexes.get('a'))
-				})
-			})
-			describe('findIndex([propName,function])',()=>{
-				it('should give to the function the arguments: key, object, keys, array,keyNumber',(done)=>{
-					var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
-					var index = wrapped.findIndex(['name',(key,obj,map,arr,n)=>{
-						expect(key).to.be.a('string');
-						expect(key).to.equal(wrapped[0].name)
-
-						expect(obj).to.be.an('object')
-						expect(obj).to.equal(wrapped[0])
-
-						expect(map).to.be.instanceOf(Map)
-
-						expect(arr).to.be.an('array')
-						expect(arr).to.eql(wrapped)
-
-						expect(n).to.be.a('number')
-						expect(n).to.equal(0)
-
-						done();
-						return BREAK;
-					}]);
-				})
-				it('should return the object index for which fn returns true',()=>{
-					var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
-					var index = wrapped.findIndex(['name',(key)=>/b/.test(key)])
-					expect(index).to.be.equal(wrapped.indexes('name').get('b'));
-				})
-				it('should return -1 if no object returned true',()=>{
-					var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
-					var index = wrapped.findIndex(['name',(key)=>/n/.test(key)])
-					expect(index).to.be.equal(-1);
-				})
-			})
-		})
-		describe('findIndexes(predicate:function|array<string>|array<string,function>|array<string,RegExp>)',()=>{
-			describe('findIndexes(function)',()=>{
-				it('should return an array of indexes when the provided function returns true',()=>{
-					var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
-					var indexes = wrapped.findIndexes(el=>el.name!=='z');
-					expect(indexes).to.eql([0,1,2,3])
-				})
-			})
-			describe('findIndexes([propName,prop,prop,prop],[include])',()=>{
-				it('should return the indexes for object where `propName` is equal to any of the provided `props`',()=>{
-					var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
-					var indexes = wrapped.findIndexes(['name','a','n','b','c','z']);
-					expect(indexes).to.eql([2,0,3])
-				})
-				it('should include falsy indexes if include is true',()=>{
-					var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
-					var indexes = wrapped.findIndexes(['name','a','n','b','c','z'],true);
-					expect(indexes).to.eql([2,-1,0,3,-1])
-				})
-			})
-			describe('findIndexes([propName,regex])',()=>{
-				it('should return the indexes for which fn returns true',()=>{
-					var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
-					var index = wrapped.findIndexes(['name',/c|a/])
-					expect(index).to.be.eql([2,3]);
-				})
-			})
-			describe('findIndexes([propName,function])',()=>{
-				it('should return the indexes for which fn returns true',()=>{
-					var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
-					var index = wrapped.findIndexes(['name',(key)=>/a|c/.test(key)])
-					expect(index).to.be.eql([2,3]);
-				})
-			})
-		})
-		describe('find(predicate:function|array<string>|array<string,function>|array<string,RegExp>)',()=>{
-			describe('find(function)',()=>{
-				it('should return the object when the provided function returns true',()=>{
-					var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
-					var obj = wrapped.find((el)=>{
-						return el.name=='d';
-					});
-					expect(obj).to.eql(wrapped[wrapped.indexes('name').get('d')])
-				})
-				it('should return undefined if no object matches the function',()=>{
-					var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
-					var obj = wrapped.find((el)=>{
-						return el.name=='e';
-					});
-					expect(obj).to.be.undefined;
-				})
-			})
-			describe('find([propName,prop])',()=>{
-				it('should return the object index who\'s property `propName` is equal to the provided `prop`',()=>{
-					var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
-					var obj = wrapped.find(['name','d']);
-					expect(obj).to.equal(wrapped[wrapped.indexes('name').get('d')])
-				})
-				it('should return the object index who\'s property `propName` matches the provided RegExp `prop`',()=>{
-					var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
-					var obj = wrapped.find(['name',/a|c/]);
-					expect(obj).to.equal(wrapped[wrapped.indexes('name').get('a')])
-				})
-			})
-			describe('find([propName,function])',()=>{
-				it('should return the object for which fn returns true',()=>{
-					var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
-					var obj = wrapped.find(['name',(key)=>/b/.test(key)])
-					expect(obj).to.be.equal(wrapped[wrapped.indexes('name').get('b')]);
-				})
-				it('should return undefined if no object returned true',()=>{
-					var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
-					var obj = wrapped.find(['name',(key)=>/n/.test(key)]);
-					expect(obj).to.be.be.undefined;;
-				})
-			})
-		})
-	})
-	describe('Mutative Methods',()=>{
 		describe('concat(...items:any)',()=>{
 			it('should work like default for simple arrays',()=>{
 				var arr = ['a', 'b', 'c'];
@@ -436,7 +440,7 @@ describe('Modified Array Methods',()=>{
 				expect(order).to.eql(model);
 			})
 		})
-		describe('splice(start:int,removeElements:int[,...items:any])',()=>{
+		describe('splice(start:int,delete:int[,...items:any])',()=>{
 			describe('splice,(start,number)',()=>{
 				it('should delete the specified elements',()=>{
 					var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
