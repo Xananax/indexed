@@ -261,7 +261,7 @@ export function removeMany(indexes,mutate,arr,predicates,value){
 }
 
 export function set(indexes,mutate,arr,indexOrPredicate,value,replace,remove){
-	if(indexOrPredicate){
+	if(indexOrPredicate!==null && typeof indexOrPredicate !== 'undefined'){
 		if(typeof indexOrPredicate == 'number'){
 			return setItemByIndex(indexes,mutate,arr,indexOrPredicate,value,replace,remove);
 		}

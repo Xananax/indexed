@@ -1060,17 +1060,57 @@ describe('modified array methods',()=>{
 				return obj;
 			});
 			var results = wrapped.concat([
-	{name:'b'}
-,	{name:'d'}
-,	{name:'a'}
-,	{name:'c'}
-])
+				{name:'b'}
+			,	{name:'d'}
+			,	{name:'a'}
+			,	{name:'c'}
+			])
 				.push({another:'element'})
 				.splice(2,0,{yetAnother:'yes',name:'between-D-and-A'})
 				.unshift({first:true})
 			;
 			expect(results.indexes('name').get('f')).to.equal(0);
 			expect(results.indexes('name').get('between-D-and-A')).to.equal(3);
+		})
+		it('should operate on set if replace is set',()=>{
+			var wrapped = wrap(
+				[
+					{name:'b'}
+				,	{name:'d'}
+				,	{name:'a'}
+				,	{name:'c'}
+				]
+			,	'name'
+			,	(el)=>{
+					var obj = Object.assign(el,{itWorks:true});
+					return obj;
+				}
+			);
+			var results = wrapped.set(2,{name:'aa'},true).replace(0,{name:'bb'});
+			var get = results.get('name');
+			expect(get('a')).to.be.undefined;
+			expect(get('b')).to.be.undefined;
+			expect(get('aa')).to.eql({name:'aa',itWorks:true});
+			expect(get('bb')).to.eql({name:'bb',itWorks:true});
+		})
+		it('should not operate on set if replace is not set',()=>{
+			var wrapped = wrap(
+				[
+					{name:'b'}
+				,	{name:'d'}
+				,	{name:'a'}
+				,	{name:'c'}
+				]
+			,	'name'
+			,	(el)=>{
+					var obj = Object.assign(el,{itWorks:true});
+					return obj;
+				}
+			);
+			var results = wrapped.set(2,{name:'aa'})
+			var get = results.get('name');
+			expect(get('a')).to.be.undefined;
+			expect(get('aa')).to.not.have.property('itWorks');
 		})
 	})
 })

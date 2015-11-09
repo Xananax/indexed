@@ -41,10 +41,10 @@ function unshiftInitialize(initializer,indexes,mutate,arr,...values){
 }
 
 function setInitialize(initializer,indexes,mutate,arr,indexOrPredicate,value,replace,remove){
-	if(replace || remove){
-		return set(indexes,mutate,arr,indexOrPredicate,value,replace,remove)
+	if(remove || !replace){
+		return set(indexes,mutate,arr,indexOrPredicate,value,false,remove)
 	}
-	return set(indexes,mutate,arr,indexOrPredicate,initializer(value))
+	return set(indexes,mutate,arr,indexOrPredicate,initializer(value),true)
 }
 
 function setManyInitialize(initializer,indexes,mutate,arr,predicates,value,remove){
