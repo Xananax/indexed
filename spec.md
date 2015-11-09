@@ -69,6 +69,9 @@
      - [has()](#modified-array-methods-has)
        - [has(indexName,key)](#modified-array-methods-has-hasindexnamekey)
        - [has(indexName)](#modified-array-methods-has-hasindexname)
+     - [getIndex()](#modified-array-methods-getindex)
+       - [getIndex(indexName,key)](#modified-array-methods-getindex-getindexindexnamekey)
+       - [getIndex(indexName)](#modified-array-methods-getindex-getindexindexname)
      - [indexes()](#modified-array-methods-indexes)
        - [indexes(indexName)](#modified-array-methods-indexes-indexesindexname)
      - [initializer()](#modified-array-methods-initializer)
@@ -1426,6 +1429,53 @@ var has2 = wrapped.push({ name: 'f' }).has('name');
 expect(has('a')).to.be.true;
 expect(has('f')).to.be.false;
 expect(has2('f')).to.be.true;
+```
+
+<a name="modified-array-methods-getindex"></a>
+## getIndex()
+<a name="modified-array-methods-getindex-getindexindexnamekey"></a>
+### getIndex(indexName,key)
+should return the index if the object specified by indexName and key exists.
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+expect(wrapped.getIndex('name', 'b')).to.equal(0);
+```
+
+should return -1 if the index or key are not found.
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+expect(wrapped.getIndex('name', 'f')).to.equal(-1);
+```
+
+<a name="modified-array-methods-getindex-getindexindexname"></a>
+### getIndex(indexName)
+should return a function getIndexInIndex(key) that can be used to check for keys.
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+var getIndex = wrapped.getIndex('name');
+expect(getIndex).to.be.a('function');
+expect(getIndex('a')).to.equal(2);
+```
+
+should return undefined if the index name provided does not exist.
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+expect(wrapped.getIndex('notAnIndex')).to.be.undefined;
+```
+
+should bind the function getIndexIndex(key) to the current values only, unless mutate is false.
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+var getIndex = wrapped.getIndex('name');
+var getIndex2 = wrapped.push({ name: 'f' }).getIndex('name');
+expect(getIndex('a')).to.equal(2);
+expect(getIndex('f')).to.equal(-1);
+expect(getIndex2('f')).to.equal(4);
 ```
 
 <a name="modified-array-methods-indexes"></a>

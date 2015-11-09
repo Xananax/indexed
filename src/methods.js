@@ -4,6 +4,7 @@ import {
 ,	fill
 ,	find
 ,	get
+,	getIndex
 ,	has
 } from './array-non-mutative'
 
@@ -43,6 +44,7 @@ export const immutableMethods = {
 ,	fill
 ,	find
 ,	get
+,	getIndex
 ,	has
 
 ,	findIndex
@@ -80,6 +82,7 @@ export const allMethods = {
 ,	fill
 ,	find
 ,	get
+,	getIndex
 ,	has
 
 ,	indexes

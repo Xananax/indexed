@@ -43,6 +43,16 @@ export function find(indexes,arr,callback,thisArg){
 	return arr[index];
 }
 
+export function getIndex(indexes,arr,indexName,key){
+	if(!indexes || !indexName){return;}
+	if(!indexes.has(indexName)){return;}
+	function getIndexInIndex(key){
+		var index = getIndexInIndexes(indexes,indexName,key);
+		return index;
+	}
+	return key ? getIndexInIndex(key) : getIndexInIndex;
+}
+
 export function get(indexes,arr,indexName,key){
 	if(!key && typeof indexName == 'number'){
 		return arr[indexName];
@@ -54,7 +64,7 @@ export function get(indexes,arr,indexName,key){
 		if(index<0){return;}
 		return arr[index];
 	}
-	return key ? getInIndex(key) : getInIndex
+	return key ? getInIndex(key) : getInIndex;
 }
 
 export function has(indexes,arr,indexName,key){
@@ -63,5 +73,5 @@ export function has(indexes,arr,indexName,key){
 	function hasInIndex(key){
 		return indexes.get(indexName).has(key);
 	}
-	return key ? hasInIndex(key) : hasInIndex
+	return key ? hasInIndex(key) : hasInIndex;
 }

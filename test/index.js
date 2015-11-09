@@ -1004,6 +1004,38 @@ describe('modified array methods',()=>{
 			})
 		})
 	})
+	describe('getIndex()',()=>{
+		describe('getIndex(indexName,key)',()=>{
+			it('should return the index if the object specified by indexName and key exists',()=>{
+				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+				expect(wrapped.getIndex('name','b')).to.equal(0)
+			})
+			it('should return -1 if the index or key are not found',()=>{
+				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+				expect(wrapped.getIndex('name','f')).to.equal(-1);
+			})
+		})
+		describe('getIndex(indexName)',()=>{
+			it('should return a function getIndexInIndex(key) that can be used to check for keys',()=>{
+				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+				var getIndex = wrapped.getIndex('name');
+				expect(getIndex).to.be.a('function')
+				expect(getIndex('a')).to.equal(2);
+			})
+			it('should return undefined if the index name provided does not exist',()=>{
+				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+				expect(wrapped.getIndex('notAnIndex')).to.be.undefined;
+			})
+			it('should bind the function getIndexIndex(key) to the current values only, unless mutate is false',()=>{
+				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+				var getIndex = wrapped.getIndex('name');
+				var getIndex2 = wrapped.push({name:'f'}).getIndex('name');
+				expect(getIndex('a')).to.equal(2);
+				expect(getIndex('f')).to.equal(-1);
+				expect(getIndex2('f')).to.equal(4);
+			})
+		})
+	})
 	describe('indexes()',()=>{
 		it('returns the indexes map',()=>{
 			var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
