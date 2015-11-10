@@ -79,6 +79,14 @@ describe('Set/Update/Remove',()=>{
 					expect(result.length).to.equal(4);
 					expect(result.get('name')('a')).to.eql({name:'a',newProp:2})
 				})
+				it('should not set the element where provided predicate is false',()=>{
+					var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+					expect(wrapped.length).to.equal(4);
+					var obj = {newProp:2};
+					var result = wrapped.set(el=>el.name=='z',obj)
+					expect(result.length).to.equal(4);
+					expect(result.find(el=>el.newProp)).to.be.undefined;
+				})
 			})
 			describe('set([propName,predicate],value:any)',()=>{
 				describe('set([propName,string|number])',()=>{
@@ -90,6 +98,14 @@ describe('Set/Update/Remove',()=>{
 						expect(result.length).to.equal(4);
 						expect(result.get('name')('a')).to.eql({name:'a',newProp:2})
 					})
+					it('should not set the element where provided predicate is false',()=>{
+						var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+						expect(wrapped.length).to.equal(4);
+						var obj = {newProp:2};
+						var result = wrapped.set(['name','z'],obj)
+						expect(result.length).to.equal(4);
+						expect(result.find(el=>el.newProp)).to.be.undefined;
+					})
 				})
 				describe('set([propName,regExp],value:any)',()=>{
 					it('should set the element where provided predicate is true',()=>{
@@ -100,6 +116,14 @@ describe('Set/Update/Remove',()=>{
 						expect(result.length).to.equal(4);
 						expect(result.get('name')('b')).to.eql({name:'b',newProp:2})
 					})
+					it('should not set the element where provided predicate is false',()=>{
+						var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+						expect(wrapped.length).to.equal(4);
+						var obj = {newProp:2};
+						var result = wrapped.set(['name',/z/],obj)
+						expect(result.length).to.equal(4);
+						expect(result.find(el=>el.newProp)).to.be.undefined;
+					})
 				})
 				describe('set([propName,fn],value:any)',()=>{
 					it('should set the element where provided predicate is true',()=>{
@@ -109,6 +133,14 @@ describe('Set/Update/Remove',()=>{
 						var result = wrapped.set(['name',key=>key=='a'],obj)
 						expect(result.length).to.equal(4);
 						expect(result.get('name')('a')).to.eql({name:'a',newProp:2})
+					})
+					it('should not set the element where provided predicate is false',()=>{
+						var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+						expect(wrapped.length).to.equal(4);
+						var obj = {newProp:2};
+						var result = wrapped.set(['name',key=>key=='z'],obj)
+						expect(result.length).to.equal(4);
+						expect(result.find(el=>el.newProp)).to.be.undefined;
 					})
 				})
 			})
