@@ -1,5 +1,7 @@
 import {
 	immutableMethods
+,	indexesMethods
+,	indexesMethodsKeys
 ,	mutableMethods
 ,	immutableMethodsKeys
 ,	mutableMethodsKeys
@@ -34,6 +36,8 @@ class PropsClass{
 	constructor(arr,indexes,initializer,factory){
 		this.arr = arr || [];
 		this.indexes = createIndexes(indexes);
+		this.collections = [];
+		this.lastIndexes = []
 		this.mutate = false;
 		this.factory = factory;
 		this.initializer = initializer || false;
@@ -123,18 +127,25 @@ regularMethods.forEach(name=>{
 	}
 	Indexed.prototype[name].nativeArrayMethod = true;
 })
-immutableMethodsKeys.forEach(name=>{
+indexesMethodsKeys.forEach(name=>{
 	Indexed.prototype[name] = function(...args){
 		const {indexes,arr} = this.__indexedProps;
-		return immutableMethods[name](indexes,arr,...args);
+		return indexesMethods[name](indexes,arr,...args);
+	}
+})
+immutableMethodsKeys.forEach(name=>{
+	Indexed.prototype[name] = function(...args){
+		const {arr} = this.__indexedProps;
+		return immutableMethods[name](this.__indexedProps,arr,...args);
 	}
 })
 mutableMethodsKeys.forEach(name=>{
 	Indexed.prototype[name] = function(...args){
-		const {indexes,mutate,arr,factory,initializer} = this.__indexedProps;
+		const props = this.__indexedProps;
+		const {arr,factory,initializer,mutate} = props;
 		const [newIndexes,newArr] = (initializer && (name in initializers)) ?
-			initializers[name](initializer,indexes,mutate,arr,...args) :
-			mutableMethods[name](indexes,mutate,arr,...args)
+			initializers[name](initializer,props,arr,...args) :
+			mutableMethods[name](props,arr,...args)
 		;
 		if(mutate){
 			this.__indexedProps.indexes = newIndexes;

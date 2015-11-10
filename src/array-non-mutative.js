@@ -1,6 +1,5 @@
 import {
 	findIndexInIndexes
-,	findIndexes
 ,	getIndexInIndexes
 } from './array-indexes';
 import {
@@ -9,7 +8,7 @@ import {
 ,	arrProto
 } from './constants';
 
-export function some(indexes,arr,callback,thisArg){
+export function some(props,arr,callback,thisArg){
 	var {length} = arr, i = 0;
 	while(i<length){
 		var val = arr[i];
@@ -21,7 +20,7 @@ export function some(indexes,arr,callback,thisArg){
 	}
 	return false;
 }
-export function map(indexes,arr,callback,thisArg){
+export function map(props,arr,callback,thisArg){
 	var {length} = arr, i = 0, newArr = [];
 	while(i<length){
 		var val = arr[i];
@@ -33,11 +32,12 @@ export function map(indexes,arr,callback,thisArg){
 	}
 	return newArr;
 }
-export function fill(indexes,arr,value,start,end){
+export function fill(props,arr,value,start,end){
 	throw new Error('fill cannot not be used')
 }
 
-export function find(indexes,arr,callback,thisArg){
+export function find(props,arr,callback,thisArg){
+	const {indexes} = props;
 	if(typeof callback == 'function'){
 		return arrProto.find.call(arr,callback,thisArg)
 	}
@@ -46,7 +46,8 @@ export function find(indexes,arr,callback,thisArg){
 	return arr[index];
 }
 
-export function getIndex(indexes,arr,indexName,key){
+export function getIndex(props,arr,indexName,key){
+	const {indexes} = props;
 	if(!indexes || !indexName){return;}
 	if(!indexes.has(indexName)){return;}
 	function getIndexInIndex(key){
@@ -56,10 +57,11 @@ export function getIndex(indexes,arr,indexName,key){
 	return key ? getIndexInIndex(key) : getIndexInIndex;
 }
 
-export function get(indexes,arr,indexName,key){
+export function get(props,arr,indexName,key){
 	if(!key && typeof indexName == 'number'){
 		return arr[indexName];
 	}
+	const {indexes} = props;
 	if(!indexes || !indexName){return;}
 	if(!indexes.has(indexName)){return;}
 	function getInIndex(key){
@@ -70,7 +72,8 @@ export function get(indexes,arr,indexName,key){
 	return key ? getInIndex(key) : getInIndex;
 }
 
-export function has(indexes,arr,indexName,key){
+export function has(props,arr,indexName,key){
+	const {indexes} = props;
 	if(!indexes || !indexName){return false;}
 	if(!indexes.has(indexName)){return false;}
 	function hasInIndex(key){

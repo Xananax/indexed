@@ -1,5 +1,15 @@
 import {arrProto} from './constants';
 
+export function isInvalidObject(obj){
+	var type = (typeof obj);
+	return (/number|string|boolean/.test(type) ||
+		(!obj) ||
+		(obj instanceof Date) ||
+		(obj instanceof RegExp) ||
+		(Array.isArray(obj))
+	)
+}
+
 export function isPlainObject(obj){
 	if(!obj){return false;}
 	if (obj.constructor && !hasOwnProperty(obj, "constructor") && !hasOwnProperty(obj.constructor.prototype, "isPrototypeOf")) {

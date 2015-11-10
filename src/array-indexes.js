@@ -3,6 +3,7 @@ import {
 ,	copyMap
 ,	anythingToMap
 ,	hasOwnProperty
+,	isInvalidObject
 } from './utils';
 import {
 	BREAK
@@ -14,12 +15,6 @@ export function createIndexes(indexes){
 	return anythingToMap(indexes,2);
 }
 
-export function indexes(indexes,arr,name){
-	if(name){
-		return (indexes.has(name))?indexes.get(name):false
-	}
-	return indexes;
-}
 export function getIndexInIndexes(indexes,name,predicate){
 	if((indexes.has(name)) && (indexes.get(name).has(predicate))){
 		return indexes.get(name).get(predicate);
@@ -53,6 +48,13 @@ export function findIndexInIndexes(indexes,predicateBlock,arr,thisArg){
 	return -1;
 }
 
+export function indexes(indexes,arr,name){
+	if(name){
+		return (indexes.has(name))?indexes.get(name):false
+	}
+	return indexes;
+}
+
 export function addIndex(indexes,arr,indexName,doReindex){
 	if(!indexes){indexes = new Map();}
 	indexes.set(indexName,new Map());
@@ -62,18 +64,8 @@ export function addIndex(indexes,arr,indexName,doReindex){
 	return indexes
 }
 
-function isInvalid(obj){
-	var type = (typeof obj);
-	return (/number|string|boolean/.test(type) ||
-		(!obj) ||
-		(obj instanceof Date) ||
-		(obj instanceof RegExp) ||
-		(Array.isArray(obj))
-	)
-}
-
 export function setIndexes(indexes,obj,index){
-	if(!indexes || isInvalid(obj)){return;}
+	if(!indexes || isInvalidObject(obj)){return;}
 	indexes.forEach((map,n)=>{
 		if(n in obj){
 			var prop = obj[n];
@@ -132,7 +124,8 @@ export function cleanIndexes(indexes){
 	})
 }
 
-export function findIndex(indexes,arr,callbackOrPredicate,thisArg){
+export function findIndex(props,arr,callbackOrPredicate,thisArg){
+	const {indexes} = props;
 	if(typeof callbackOrPredicate == 'function'){
 		return arrProto.findIndex.call(arr,callbackOrPredicate,thisArg);
 	}
@@ -157,7 +150,7 @@ export function copyAndReindex(indexes,arr){
 	reindex(copyIndexes(indexes), arr)
 }
 
-export function findIndexes(indexes,arr,predicates,thisArg){
+export function findIndexes({indexes},arr,predicates,thisArg){
 	var i = 0, {length} = predicates, max = arr.length;
 	var results = [];
 	if(typeof predicates == 'function'){

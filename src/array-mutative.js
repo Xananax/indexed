@@ -24,7 +24,8 @@ import {
 ,	arrProto
 } from './constants';
 
-export function concat(indexes,mutate,arr,...values){
+export function concat(props,arr,...values){
+	const {indexes,mutate} = props;
 	var {length} = values, i = 0, index = arr.length;
 	var newArr = mutate? arr : nativeSlice(arr);
 	var newIndexes = indexes ? mutate? indexes : cloneIndexes(indexes) : null;
@@ -46,13 +47,15 @@ export function concat(indexes,mutate,arr,...values){
 	return [newIndexes,newArr];
 }
 
-export function filter(indexes,mutate,arr,callback,thisArg){
+export function filter(props,arr,callback,thisArg){
+	const {indexes,mutate} = props;
 	var newArr = arrProto.filter.call(arr,callback,thisArg);
 	var newIndexes = indexes ? copyIndexes(indexes) : null;
 	reindex(newIndexes,newArr);
 	return [newIndexes,newArr];
 }
-export function forEach(indexes,mutate,arr,callback,thisArg){
+export function forEach(props,arr,callback,thisArg){
+	const {indexes,mutate} = props;
 	var {length} = arr, i = 0;
 	while(i<length){
 		var val = arr[i];
@@ -62,7 +65,8 @@ export function forEach(indexes,mutate,arr,callback,thisArg){
 	}
 	return [indexes,arr];
 }
-export function transform(indexes,mutate,arr,callback,thisArg){
+export function transform(props,arr,callback,thisArg){
+	const {indexes,mutate} = props;
 	var {length} = arr, i = 0,newArr = mutate ? arr : new Array(length);
 	while(i<length){
 		var val = arr[i];
@@ -77,7 +81,8 @@ export function transform(indexes,mutate,arr,callback,thisArg){
 	reindex(newIndexes,newArr);
 	return [newIndexes,newArr];
 }
-export function pop(indexes,mutate,arr,receiver){
+export function pop(props,arr,receiver){
+	const {indexes,mutate} = props;
 	var newArr = mutate? arr: nativeSlice(arr);
 	var newIndexes = indexes ? mutate ? indexes : cloneIndexes(indexes) : null;
 	var popped = newArr.pop();
@@ -85,7 +90,8 @@ export function pop(indexes,mutate,arr,receiver){
 	removeIndexes(newIndexes,popped)
 	return [newIndexes,newArr];
 }
-export function push(indexes,mutate,arr,...values){
+export function push(props,arr,...values){
+	const {indexes,mutate} = props;
 	var {length} = values, i = 0, index = arr.length;
 	var newArr = mutate ? arr : nativeSlice(arr);
 	var newIndexes = indexes ? mutate ? indexes : cloneIndexes(indexes) : null;
@@ -98,14 +104,16 @@ export function push(indexes,mutate,arr,...values){
 	}
 	return [newIndexes,newArr];
 }
-export function reverse(indexes,mutate,arr){
+export function reverse(props,arr){
+	const {indexes,mutate} = props;
 	var newArr = mutate ? arr : nativeSlice(arr);
 	var newIndexes = indexes ? mutate ? indexes : cloneIndexes(indexes) : null;
 	newArr.reverse();
 	reindex(newIndexes,newArr);
 	return [newIndexes,newArr];
 }
-export function shift(indexes,mutate,arr,receiver){
+export function shift(props,arr,receiver){
+	const {indexes,mutate} = props;
 	var newArr = mutate ? arr : nativeSlice(arr);
 	var newIndexes = indexes ? mutate ? indexes : cloneIndexes(indexes) : null;
 	var shifted = newArr.shift();
@@ -116,7 +124,8 @@ export function shift(indexes,mutate,arr,receiver){
 	}
 	return [newIndexes,newArr];
 }
-export function slice(indexes,mutate,arr,begin,end){
+export function slice(props,arr,begin,end){
+	const {indexes,mutate} = props;
 	var newArr = nativeSlice(arr,begin,end);
 	var newIndexes = indexes ? mutate ? indexes : cloneIndexes(indexes) : null;
 	var {length} = newArr, i = 0;
@@ -125,7 +134,8 @@ export function slice(indexes,mutate,arr,begin,end){
 	}
 	return [newIndexes,newArr];
 }
-export function sort(indexes,mutate,arr,compareFunction){
+export function sort(props,arr,compareFunction){
+	const {indexes,mutate} = props;
 	var newArr = mutate ? arr : nativeSlice(arr);
 	var newIndexes = indexes ? mutate ? indexes : copyIndexes(indexes) : null;
 	if(!compareFunction || typeof compareFunction == 'function'){
@@ -148,7 +158,8 @@ export function sort(indexes,mutate,arr,compareFunction){
 	reindex(newIndexes,newArr);
 	return [newIndexes,newArr];
 }
-export function splice(indexes,mutate,arr,start,deleteCount,...items){
+export function splice(props,arr,start,deleteCount,...items){
+	const {indexes,mutate} = props;
 	var newArr;
 	deleteCount = deleteCount || 0;
 	if(mutate){
@@ -163,7 +174,8 @@ export function splice(indexes,mutate,arr,start,deleteCount,...items){
 	reindex(newIndexes,newArr);
 	return [newIndexes,newArr];
 }
-export function unshift(indexes,mutate,arr,...values){
+export function unshift(props,arr,...values){
+	const {indexes,mutate} = props;
 	var {length} = values, i = 0;
 	var newIndexes = indexes ? mutate ? indexes : cloneIndexes(indexes) : null;
 	var newArr;
@@ -184,12 +196,13 @@ export function unshift(indexes,mutate,arr,...values){
 	return [newIndexes,newArr];
 }
 
-export function setItemByIndex(indexes,mutate,arr,index,value,replace,remove){
+export function setItemByIndex(props,arr,index,value,replace,remove){
+	const {indexes,mutate} = props;
 	if(typeof index == 'undefined' || index === null){index = arr.length;}
 	if(index<0){
 		index = arr.length+(index);
 	}
-	if(index>=arr.length){return push(indexes,mutate,arr,value);}
+	if(index>=arr.length){return push(props,arr,value);}
 	var newArr;
 	var oldObj = arr[index];
 	var newIndexes = indexes ? mutate ? indexes : cloneIndexes(indexes) : null;
@@ -215,34 +228,38 @@ export function setItemByIndex(indexes,mutate,arr,index,value,replace,remove){
 	return [newIndexes,newArr]
 }
 
-export function setItemWhere(indexes,mutate,arr,predicate,value,replace,remove){
-	var index = findIndex(indexes,arr,predicate);
+export function setItemWhere(props,arr,predicate,value,replace,remove){
+	const {indexes,mutate} = props;
+	var index = findIndex(props,arr,predicate);
 	if(index < 0){
 		return [indexes,arr]
 	}
-	return setItemByIndex(indexes,mutate,arr,index,value,replace,remove);
+	return setItemByIndex(props,arr,index,value,replace,remove);
 }
 
-export function setMultipleItemsByIndex(indexes,mutate,arr,indexesList,value,remove){
+export function setMultipleItemsByIndex(props,arr,indexesList,value,remove){
+	const {indexes,mutate} = props;
 	var newArr = mutate ? arr : nativeSlice(arr);
 	var newIndexes = indexes ? mutate? indexes : cloneIndexes(indexes) : null;
 	var {length} = indexesList;
 	var i = 0;
 	if(!length){return [newIndexes,newArr];}
+	var newProps = {indexes:newIndexes,mutate:true};
 	while(i<length){
 		var index = indexesList[i++];
-		setItemByIndex(newIndexes,true,newArr,index,value,false,remove);
+		setItemByIndex(newProps,newArr,index,value,false,remove);
 	}
 	return [newIndexes,newArr]
 }
 
-export function setMany(indexes,mutate,arr,predicates,value){
-	var indexesList = findIndexes(indexes,arr,predicates);
-	return setMultipleItemsByIndex(indexes,mutate,arr,indexesList,value);
+export function setMany(props,arr,predicates,value){
+	var indexesList = findIndexes(props,arr,predicates);
+	return setMultipleItemsByIndex(props,arr,indexesList,value);
 }
 
-export function removeMany(indexes,mutate,arr,predicates,value){
-	var indexesList = findIndexes(indexes,arr,predicates);
+export function removeMany(props,arr,predicates,value){
+	const {indexes,mutate} = props;
+	var indexesList = findIndexes(props,arr,predicates);
 	var newArr = mutate ? arr : nativeSlice(arr);
 	var newIndexes = indexes ? mutate? indexes : cloneIndexes(indexes) : null;
 	var {length} = indexesList;
@@ -262,47 +279,50 @@ export function removeMany(indexes,mutate,arr,predicates,value){
 	return [newIndexes,newArr];
 }
 
-export function set(indexes,mutate,arr,indexOrPredicate,value,replace,remove){
+export function set(props,arr,indexOrPredicate,value,replace,remove){
+	const {indexes,mutate} = props;
 	if(indexOrPredicate!==null && typeof indexOrPredicate !== 'undefined'){
 		if(typeof indexOrPredicate == 'number'){
-			return setItemByIndex(indexes,mutate,arr,indexOrPredicate,value,replace,remove);
+			return setItemByIndex(props,arr,indexOrPredicate,value,replace,remove);
 		}
 		if(indexes){
-			return setItemWhere(indexes,mutate,arr,indexOrPredicate,value,replace,remove);
+			return setItemWhere(props,arr,indexOrPredicate,value,replace,remove);
 		}
 	}
 	if(replace || remove){
 		throw new Error('replace or remove invoked without a valid index');
 	}
-	return push(indexes,mutate,arr,value);
+	return push(props,arr,value);
 }
 
-export function replace(indexes,mutate,arr,indexOrPredicate,value){
-	return set(indexes,mutate,arr,indexOrPredicate,value,true,false);
+export function replace(props,arr,indexOrPredicate,value){
+	return set(props,arr,indexOrPredicate,value,true,false);
 }
 
-export function remove(indexes,mutate,arr,indexOrPredicate){
-	return set(indexes,mutate,arr,indexOrPredicate,null,false,true);
+export function remove(props,arr,indexOrPredicate){
+	return set(props,arr,indexOrPredicate,null,false,true);
 }
 
-export function findMany(indexes,mutate,arr,predicates,thisArg){
+export function findMany(props,arr,predicates,thisArg){
+	const {indexes,mutate} = props;
 	var newArr = [];
 	var newIndexes = indexes ? mutate? indexes : copyIndexes(indexes) : null;
-	const indexesList = findIndexes(indexes,arr,predicates,thisArg)
+	const indexesList = findIndexes(props,arr,predicates,thisArg)
 	if(!indexesList.length){return [newIndexes,newArr];}
 	newArr = indexesList.map(index=>arr[index]);
 	reindex(newIndexes,newArr);
 	return [newIndexes,newArr];
 }
 
-export function fromJson(indexes,mutate,arr,json){
+export function fromJson(props,arr,json){
+	const {indexes,mutate} = props;
 	if(!json){return [indexes,arr];}
 	const {indexes:jsonIndexes,items} = json;
-	indexes = indexesFromJson(jsonIndexes)
+	const newIndexes = indexesFromJson(jsonIndexes)
 	if(mutate){
 		arr.length = 0;
 		arr.push(...items);
-		return [indexes,arr];
+		return [newIndexes,arr];
 	}
-	return [indexes,items];
+	return [newIndexes,items];
 }

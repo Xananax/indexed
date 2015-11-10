@@ -38,6 +38,12 @@ import {
 ,	fromJson
 } from './array-mutative'
 
+export const indexesMethods = {
+	reindex
+,	indexes
+,	addIndex
+}
+
 export const immutableMethods = {
 	some
 ,	map
@@ -49,9 +55,6 @@ export const immutableMethods = {
 
 ,	findIndex
 ,	findIndexes
-,	reindex
-,	indexes
-,	addIndex
 }
 
 export const mutableMethods = {
@@ -115,3 +118,4 @@ export const allMethods = {
 
 export const immutableMethodsKeys = Object.keys(immutableMethods);
 export const mutableMethodsKeys = Object.keys(mutableMethods);
+export const indexesMethodsKeys = Object.keys(indexesMethods);

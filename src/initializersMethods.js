@@ -30,7 +30,8 @@ function initializeMany(initializer,vals){
 	return results;
 }
 
-function concatInitialize(initializer,indexes,mutate,arr,...values){
+function concatInitialize(initializer,props,arr,...values){
+	const {indexes} = props;
 	const {length} = values;
 	var i = 0;
 	const results = [];
@@ -41,49 +42,55 @@ function concatInitialize(initializer,indexes,mutate,arr,...values){
 		if(result === SKIP){continue;}
 		results.push(result);
 	}
-	return concat(indexes,mutate,arr,...results);
+	return concat(props,arr,...results);
 }
 
-function pushInitialize(initializer,indexes,mutate,arr,...values){
+function pushInitialize(initializer,props,arr,...values){
+	const {indexes} = props;
 	values = initializeMany(initializer,values)
 	if(values === BREAK){return [indexes,arr];}
-	return push(indexes,mutate,arr,...values)
+	return push(props,arr,...values)
 }
 
-function spliceInitialize(initializer,indexes,mutate,arr,start,deleteCount,...values){
+function spliceInitialize(initializer,props,arr,start,deleteCount,...values){
+	const {indexes} = props;
 	values = initializeMany(initializer,values)
 	if(values === BREAK){return [indexes,arr];}
-	return splice(indexes,mutate,arr,start,deleteCount,...values)
+	return splice(props,arr,start,deleteCount,...values)
 }
 
-function unshiftInitialize(initializer,indexes,mutate,arr,...values){
+function unshiftInitialize(initializer,props,arr,...values){
+	const {indexes} = props;
 	values = initializeMany(initializer,values)
 	if(values === BREAK){return [indexes,arr];}
-	return unshift(indexes,mutate,arr,...values)
+	return unshift(props,arr,...values)
 }
 
-function setInitialize(initializer,indexes,mutate,arr,indexOrPredicate,value,replace,remove){
+function setInitialize(initializer,props,arr,indexOrPredicate,value,replace,remove){
+	const {indexes} = props;
 	if(remove || !replace){
-		return set(indexes,mutate,arr,indexOrPredicate,value,false,remove)
+		return set(props,arr,indexOrPredicate,value,false,remove)
 	}
 	value = initializer(value);
 	if(value === BREAK|| value === SKIP){return [indexes,arr];}
-	return set(indexes,mutate,arr,indexOrPredicate,value,true)
+	return set(props,arr,indexOrPredicate,value,true)
 }
 
-function setManyInitialize(initializer,indexes,mutate,arr,predicates,value,remove){
+function setManyInitialize(initializer,props,arr,predicates,value,remove){
+	const {indexes} = props;
 	if(remove){
-		return setMany(indexes,mutate,arr,predicates,value,remove)
+		return setMany(props,arr,predicates,value,remove)
 	}
 	value = initializer(value);
 	if(value === BREAK|| value === SKIP){return [indexes,arr];}
-	return setMany(indexes,mutate,arr,predicates,value);
+	return setMany(props,arr,predicates,value);
 }
 
-function replaceInitialize(initializer,indexes,mutate,arr,indexOrPredicate,value){
+function replaceInitialize(initializer,props,arr,indexOrPredicate,value){
+	const {indexes} = props;
 	value = initializer(value);
 	if(value === BREAK|| value === SKIP){return [indexes,arr];}
-	return replace(indexes,mutate,arr,indexOrPredicate,value)
+	return replace(props,arr,indexOrPredicate,value)
 }
 
 export default {
