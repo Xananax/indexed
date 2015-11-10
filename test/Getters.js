@@ -36,7 +36,7 @@ describe('Getters',()=>{
 				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
 				expect(wrapped.get('notAnIndex')).to.be.undefined;
 			})
-			it('should bind the function getIndex(key) to the current values only, unless mutate is false',()=>{
+			it('should bind the function get(key) to the current values only, unless mutate is false',()=>{
 				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
 				var get = wrapped.get('name');
 

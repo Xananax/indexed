@@ -56,7 +56,10 @@ describe('Working With Indexes',()=>{
 		describe('getIndex(indexName:string,key:string)',()=>{
 			it('should return the index if the object specified by indexName and key exists',()=>{
 				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+				var wrapped2 = wrap([{id:0},{id:1},{id:2},{id:3},{id:4}],'id');
 				expect(wrapped.getIndex('name','b')).to.equal(0)
+				expect(wrapped2.getIndex('id',4)).to.equal(4)
+				expect(wrapped2.indexes().get('id').get(0)).to.equal(0)
 			})
 			it('should return -1 if the index or key are not found',()=>{
 				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
