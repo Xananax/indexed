@@ -279,7 +279,7 @@ describe('Set/Update/Remove',()=>{
 			})
 		})
 	})
-	describe('transform items being pushed',()=>{
+	describe('transform items being added',()=>{
 		describe('initializer(function)',()=>{
 			it('should put all new items through the provided initializer function',()=>{
 				var i = 0;

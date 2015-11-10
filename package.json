@@ -1,12 +1,15 @@
 {
   "name": "indexed",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "database-like indexed array that always returns a new array",
   "main": "index.js",
   "scripts": {
     "compile": "rm -rf ./lib && ./node_modules/.bin/babel src --out-dir lib",
     "test": "./node_modules/.bin/mocha",
-    "spec": "./node_modules/.bin/mocha --reporter markdown > spec.md"
+    "spec": "./node_modules/.bin/mocha --reporter markdown > spec.md",
+	"prepare": "npm run test && npm run spec && npm run compile && echo \"CHANGED FILES:\" && git add -A -n",
+	"commit":"npm run prepare && git add -A && git commit && git push",
+	"publish":"npm run commit && npm publish"
   },
   "devDependencies": {
     "babel": "^6.0.15",

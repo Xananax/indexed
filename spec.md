@@ -74,8 +74,8 @@
          - [removeMany(fn,value)](#setupdateremove-set-or-remove-multiple-items-removemanypredicates-removemanyfnvalue)
          - [removeMany([propName,prop,prop,prop],value)](#setupdateremove-set-or-remove-multiple-items-removemanypredicates-removemanypropnamepropproppropvalue)
          - [removeMany([propName,fn],value)](#setupdateremove-set-or-remove-multiple-items-removemanypredicates-removemanypropnamefnvalue)
-     - [transform items being pushed](#setupdateremove-transform-items-being-pushed)
-       - [initializer(function)](#setupdateremove-transform-items-being-pushed-initializerfunction)
+     - [transform items being added](#setupdateremove-transform-items-being-added)
+       - [initializer(function)](#setupdateremove-transform-items-being-added-initializerfunction)
    - [Static methods and helpers](#static-methods-and-helpers)
      - [isArrayLike(obj)](#static-methods-and-helpers-isarraylikeobj)
    - [Unmodified array methods](#unmodified-array-methods)
@@ -899,6 +899,21 @@ expect(result.length).to.equal(4);
 expect(result.get('name')('a')).to.eql({ name: 'a', newProp: 2 });
 ```
 
+should not set the element where provided predicate is false.
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+expect(wrapped.length).to.equal(4);
+var obj = { newProp: 2 };
+var result = wrapped.set(function (el) {
+	return el.name == 'z';
+}, obj);
+expect(result.length).to.equal(4);
+expect(result.find(function (el) {
+	return el.newProp;
+})).to.be.undefined;
+```
+
 <a name="setupdateremove-set-update-or-remove-a-single-item-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpropnamepredicatevalueany"></a>
 #### set([propName,predicate],value:any)
 <a name="setupdateremove-set-update-or-remove-a-single-item-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpropnamepredicatevalueany-setpropnamestringnumber"></a>
@@ -914,6 +929,19 @@ expect(result.length).to.equal(4);
 expect(result.get('name')('a')).to.eql({ name: 'a', newProp: 2 });
 ```
 
+should not set the element where provided predicate is false.
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+expect(wrapped.length).to.equal(4);
+var obj = { newProp: 2 };
+var result = wrapped.set(['name', 'z'], obj);
+expect(result.length).to.equal(4);
+expect(result.find(function (el) {
+	return el.newProp;
+})).to.be.undefined;
+```
+
 <a name="setupdateremove-set-update-or-remove-a-single-item-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpropnamepredicatevalueany-setpropnameregexpvalueany"></a>
 ##### set([propName,regExp],value:any)
 should set the element where provided predicate is true.
@@ -925,6 +953,19 @@ var obj = { newProp: 2 };
 var result = wrapped.set(['name', /a|b/], obj);
 expect(result.length).to.equal(4);
 expect(result.get('name')('b')).to.eql({ name: 'b', newProp: 2 });
+```
+
+should not set the element where provided predicate is false.
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+expect(wrapped.length).to.equal(4);
+var obj = { newProp: 2 };
+var result = wrapped.set(['name', /z/], obj);
+expect(result.length).to.equal(4);
+expect(result.find(function (el) {
+	return el.newProp;
+})).to.be.undefined;
 ```
 
 <a name="setupdateremove-set-update-or-remove-a-single-item-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setpropnamepredicatevalueany-setpropnamefnvalueany"></a>
@@ -940,6 +981,21 @@ var result = wrapped.set(['name', function (key) {
 }], obj);
 expect(result.length).to.equal(4);
 expect(result.get('name')('a')).to.eql({ name: 'a', newProp: 2 });
+```
+
+should not set the element where provided predicate is false.
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+expect(wrapped.length).to.equal(4);
+var obj = { newProp: 2 };
+var result = wrapped.set(['name', function (key) {
+	return key == 'z';
+}], obj);
+expect(result.length).to.equal(4);
+expect(result.find(function (el) {
+	return el.newProp;
+})).to.be.undefined;
 ```
 
 <a name="setupdateremove-set-update-or-remove-a-single-item-replacepredicatevalue"></a>
@@ -1122,9 +1178,9 @@ expect(get('d')).to.be.undefined;;
 expect(get('c')).to.be.undefined;;
 ```
 
-<a name="setupdateremove-transform-items-being-pushed"></a>
-## transform items being pushed
-<a name="setupdateremove-transform-items-being-pushed-initializerfunction"></a>
+<a name="setupdateremove-transform-items-being-added"></a>
+## transform items being added
+<a name="setupdateremove-transform-items-being-added-initializerfunction"></a>
 ### initializer(function)
 should put all new items through the provided initializer function.
 

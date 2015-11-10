@@ -14,6 +14,6 @@ However, indexes will not keep track of uniqueness, that's up to you. If you add
 
 The project is very new and API is far from being stabilized.
 
-Documentation will come later, in the meantime, have a look at the tests, all 158 of them, which is not enough, but a good start. There's a generated [`spec.md`](./spec.md).
+Documentation will come later, in the meantime, have a look at the tests, all 162 of them, which is not enough, but a good start. There's a generated [`spec.md`](./spec.md).
 
 MIT License.

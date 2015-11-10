@@ -76,16 +76,6 @@ function setInitialize(initializer,props,arr,indexOrPredicate,value,replace,remo
 	return set(props,arr,indexOrPredicate,value,true)
 }
 
-function setManyInitialize(initializer,props,arr,predicates,value,remove){
-	const {indexes} = props;
-	if(remove){
-		return setMany(props,arr,predicates,value,remove)
-	}
-	value = initializer(value);
-	if(value === BREAK|| value === SKIP){return [indexes,arr];}
-	return setMany(props,arr,predicates,value);
-}
-
 function replaceInitialize(initializer,props,arr,indexOrPredicate,value){
 	const {indexes} = props;
 	value = initializer(value);
@@ -99,6 +89,5 @@ export default {
 ,	splice:spliceInitialize
 ,	unshift:unshiftInitialize
 ,	set:setInitialize
-,	setMany:setManyInitialize
 ,	replace:replaceInitialize
 }
