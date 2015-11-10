@@ -8,8 +8,8 @@
     "test": "./node_modules/.bin/mocha",
     "spec": "./node_modules/.bin/mocha --reporter markdown > spec.md",
 	"prepare": "npm run test && npm run spec && npm run compile && echo \"CHANGED FILES:\" && git add -A -n",
-	"commit":"npm run prepare && git add -A && git commit && git push",
-	"publish":"npm run commit && npm publish"
+	"prepare-commit":"npm run prepare && git add -A && git commit && git push",
+	"commit":"npm run prepare-commit && npm publish"
   },
   "devDependencies": {
     "babel": "^6.0.15",
