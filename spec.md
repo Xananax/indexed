@@ -50,6 +50,8 @@
        - [transform(function[,thisArg])](#methods-that-return-a-new-indexed-object-returns-a-subset-of-items-transformfunctionthisarg)
    - [Methods that return an iterator](#methods-that-return-an-iterator)
      - [getIterator(key:string)](#methods-that-return-an-iterator-getiteratorkeystring)
+       - [getIterator(key:string).forEach()](#methods-that-return-an-iterator-getiteratorkeystring-getiteratorkeystringforeach)
+       - [getIterator(key:string).map()](#methods-that-return-an-iterator-getiteratorkeystring-getiteratorkeystringmap)
    - [Set/Update/Remove](#setupdateremove)
      - [Set, update, or remove a single item](#setupdateremove-set-update-or-remove-a-single-item)
        - [set(predicate:integer|function|array[string,string]|array[string,regexp]|array[string,function],value:any)](#setupdateremove-set-update-or-remove-a-single-item-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany)
@@ -723,9 +725,9 @@ var _iteratorError = undefined;
 try {
 	for (var _iterator = wrapped.getIterator('name')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 		var _step$value = _slicedToArray(_step.value, 2);
-		var key = _step$value[0];
+		var index = _step$value[0];
 		var value = _step$value[1];
-		expect(key).to.equal(value.name);
+		expect(wrapped[index]).to.eql(value);
 	}
 } catch (err) {
 	_didIteratorError = true;
@@ -743,7 +745,7 @@ try {
 }
 ```
 
-should return an iterator that provides (key:object property,value:object).
+should return an iterator that provides (index:object index,value:object).
 
 ```js
 var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
@@ -754,11 +756,10 @@ var _iteratorError2 = undefined;
 try {
 	for (var _iterator2 = wrapped.getIterator('name')[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
 		var _step2$value = _slicedToArray(_step2.value, 2);
-		var key = _step2$value[0];
+		var index = _step2$value[0];
 		var value = _step2$value[1];
-		var obj = wrapped[i++];
-		expect(value).to.equal(obj);
-		expect(key).to.equal(obj.name);
+		var obj = wrapped[i];
+		expect(index).to.equal(i++);
 	}
 } catch (err) {
 	_didIteratorError2 = true;
@@ -783,6 +784,81 @@ var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }],
 expect(function () {
 	var iterator = wrapped.getIterator('whatever');
 }).to.throw();
+```
+
+<a name="methods-that-return-an-iterator-getiteratorkeystring-getiteratorkeystringforeach"></a>
+### getIterator(key:string).forEach()
+should call a function with arguments (index,value).
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+wrapped.getIterator('name').forEach(function (el, i) {
+	expect(wrapped[i]).to.equal(el);
+});
+```
+
+should stop iterations if BREAK is returned.
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+var n = 0;
+wrapped.getIterator('name').forEach(function (el, i) {
+	if (i >= 2) {
+		return BREAK;
+	}
+	n++;
+});
+expect(n).to.equal(2);
+```
+
+<a name="methods-that-return-an-iterator-getiteratorkeystring-getiteratorkeystringmap"></a>
+### getIterator(key:string).map()
+should call a function with arguments (index,value).
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+wrapped.getIterator('name').map(function (el, i) {
+	expect(wrapped[i]).to.equal(el);
+});
+```
+
+should stop iterations if BREAK is returned.
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+var n = 0;
+wrapped.getIterator('name').map(function (el, i) {
+	if (i >= 2) {
+		return BREAK;
+	}
+	n++;
+});
+expect(n).to.equal(2);
+```
+
+should skip an iteration if SKIP is returned.
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }, { name: 'e' }], 'name');
+var n = 0;
+var result = wrapped.getIterator('name').map(function (el, i) {
+	if (i % 2) {
+		return SKIP;
+	}
+	n++;
+	return el.name;
+});
+expect(n).to.equal(3);
+expect(result[result.length - 1]).to.equal('e');
+```
+
+should return an array.
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }, { name: 'e' }], 'name');
+var result = wrapped.getIterator('name').map(function (el, i) {});
+expect(result).to.be.an('array');
 ```
 
 <a name="setupdateremove"></a>

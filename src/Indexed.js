@@ -11,6 +11,7 @@ import {
 ,	arrProto
 ,	isArrayLike
 ,	BREAK
+,	SKIP
 } from './constants';
 import {
 	createIndexes
@@ -63,16 +64,33 @@ class PropsClass{
 		const iterator = this.indexes && this.indexes.has(key) ? this.indexes.get(key).entries() : null;
 		if(!iterator){throw new Error(`index \`${key}\` does not exist`);}
 		const {arr} = this;
+		function next(){
+			const answer = iterator.next();
+			if(answer.done){return answer;}
+			const [key,index] = answer.value;
+			return {value:[index,arr[index]]};
+		}
+		function forEach(fn,thisArg){
+			for(let [key,index] of iterator){
+				let answer = fn.call(thisArg,arr[index],index);
+				if(answer === BREAK){return;}
+			}
+		}
+		function map(fn,thisArg){
+			const result = [];
+			for(let [key,index] of iterator){
+				let answer = fn.call(thisArg,arr[index],index);
+				if(answer === BREAK){return result;}
+				if(answer === SKIP){continue;}
+				result.push(answer);
+			}
+			return result;
+		}
 		return {
-			[Symbol.iterator]() {
-				return this;
-			}
-		,	next(){
-				const answer = iterator.next();
-				if(answer.done){return answer;}
-				const [key,index] = answer.value;
-				return {value:[key,arr[index]]};
-			}
+			[Symbol.iterator](){return this;}
+		,	next
+		,	map
+		,	forEach
 		}
 	}
 }
