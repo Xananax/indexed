@@ -37,7 +37,7 @@ class PropsClass{
 		this.arr = arr || [];
 		this.indexes = createIndexes(indexes);
 		this.collections = [];
-		this.lastIndexes = []
+		this.lastIndexes = [];
 		this.mutate = false;
 		this.factory = factory;
 		this.initializer = initializer || false;
@@ -115,6 +115,9 @@ export class Indexed{
 	getIterator(key){
 		return this.__indexedProps.getIterator(key)
 	}
+	lastIndexes(){
+		return this.__indexedProps.lastIndexes;
+	}
 }
 
 Indexed.factory = IndexedFactory;
@@ -152,7 +155,11 @@ mutableMethodsKeys.forEach(name=>{
 			this.__indexedProps.arr = newArr;
 			return this;
 		}
-		return factory(newArr,newIndexes,initializer,factory);
+		var ret = factory(newArr,newIndexes,initializer,factory);
+		if(props.lastIndexes.length){
+			ret.__indexedProps.lastIndexes = props.lastIndexes;
+		}
+		return ret;
 	}
 })
 

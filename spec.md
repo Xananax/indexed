@@ -1,4 +1,6 @@
 # TOC
+   - [Working With Collections](#working-with-collections)
+     - [collect(name:string)](#working-with-collections-collectnamestring)
    - [Getters](#getters)
      - [get(index:integer|string[,key:string])](#getters-getindexintegerstringkeystring)
        - [get(index:number)](#getters-getindexintegerstringkeystring-getindexnumber)
@@ -141,6 +143,10 @@
          - [splice(start,number,...items)](#modified-array-methods-mutative-methods-splicestartintdeleteintitemsany-splicestartnumberitems)
 <a name=""></a>
  
+<a name="working-with-collections"></a>
+# Working With Collections
+<a name="working-with-collections-collectnamestring"></a>
+## collect(name:string)
 <a name="getters"></a>
 # Getters
 <a name="getters-getindexintegerstringkeystring"></a>
@@ -785,6 +791,14 @@ expect(function () {
 ## Set, update, or remove a single item
 <a name="setupdateremove-set-update-or-remove-a-single-item-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany"></a>
 ### set(predicate:integer|function|array[string,string]|array[string,regexp]|array[string,function],value:any)
+should update the last indexes.
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+var resultWrapped = wrapped.set(1, { name: 'f' });
+expect(resultWrapped.lastIndexes()).to.eql([1]);
+```
+
 <a name="setupdateremove-set-update-or-remove-a-single-item-setpredicateintegerfunctionarraystringstringarraystringregexparraystringfunctionvalueany-setindexintegervalueany"></a>
 #### set(index:integer,value:any)
 should work like push if index is not specified.
@@ -930,6 +944,14 @@ expect(result.get('name')('a')).to.eql({ name: 'a', newProp: 2 });
 
 <a name="setupdateremove-set-update-or-remove-a-single-item-replacepredicatevalue"></a>
 ### replace(predicate,value)
+should update the last indexes.
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+var resultWrapped = wrapped.replace(['name', 'd'], { name: 'f' });
+expect(resultWrapped.lastIndexes()).to.eql([1]);
+```
+
 <a name="setupdateremove-set-update-or-remove-a-single-item-replacepredicatevalue-replaceindexintegervalue"></a>
 #### replace(index:integer,value)
 should replace the specified objects and indexes.
@@ -986,6 +1008,14 @@ expect(result.indexes('name').get('a')).to.equal(1);
 ## set or remove multiple items
 <a name="setupdateremove-set-or-remove-multiple-items-setmanypredicatesfunctionarraystringpredicatearraystringfunctionvalue"></a>
 ### setMany(predicates:function|array[string,...predicate]|array[string|function],value)
+should update the last indexes.
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+var resultWrapped = wrapped.setMany(['name', 'b', 'c'], { name: 'f' });
+expect(resultWrapped.lastIndexes()).to.eql([3]);
+```
+
 <a name="setupdateremove-set-or-remove-multiple-items-setmanypredicatesfunctionarraystringpredicatearraystringfunctionvalue-setmanyfnvalue"></a>
 #### setMany(fn,value)
 should set the objects where the provided function returns true.
@@ -1843,6 +1873,14 @@ var resultClosed = closed.concat(additional1, additional2);
 verify(resultWrapped, resultClosed, 7);
 ```
 
+should update the last indexes.
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+var resultWrapped = wrapped.concat({ name: 'f' }, { name: 'z' });
+expect(resultWrapped.lastIndexes()).to.eql([4, 5]);
+```
+
 <a name="modified-array-methods-mutative-methods-popreceiverarray"></a>
 ### pop([receiver:array])
 <a name="modified-array-methods-mutative-methods-popreceiverarray-pop"></a>
@@ -1956,6 +1994,14 @@ expect(resultClosed.indexes('name').size).to.equal(arr.length);
 expect(resultClosed.indexes('name').get('f')).to.equal(4);
 ```
 
+should update the last indexes.
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+var resultWrapped = wrapped.push({ name: 'f' }, { name: 'z' });
+expect(resultWrapped.lastIndexes()).to.eql([4, 5]);
+```
+
 <a name="modified-array-methods-mutative-methods-unshift"></a>
 ### unshift()
 should prepend an item to the array.
@@ -1986,6 +2032,14 @@ expect(resultWrapped.indexes('name').size).to.equal(arr.length);
 expect(resultClosed.indexes('name').size).to.equal(arr.length);
 expect(resultClosed.indexes('name').get('f')).to.equal(0);
 expect(resultClosed.indexes('name').get('b')).to.equal(1);
+```
+
+should update the last indexes.
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+var resultWrapped = wrapped.unshift({ name: 'f' }, { name: 'z' });
+expect(resultWrapped.lastIndexes()).to.eql([0, 1]);
 ```
 
 <a name="modified-array-methods-mutative-methods-reverse"></a>
@@ -2133,6 +2187,14 @@ result.forEach(function (v, k) {
 	keys.push(k);
 });
 expect(keys).to.eql(['b', 'd', 'f']);
+```
+
+should update the last indexes.
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+var resultWrapped = wrapped.splice(2, 3, { name: 'f' }, { name: 'z' });
+expect(resultWrapped.lastIndexes()).to.eql([2, 3]);
 ```
 
 <a name="modified-array-methods-mutative-methods-splicestartintdeleteintitemsany-splicestartnumber"></a>

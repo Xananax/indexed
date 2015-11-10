@@ -113,7 +113,7 @@ describe('Modified Array Methods',()=>{
 				})
 			})
 		})
-		describe('Returns items',()=>{	
+		describe('Returns items',()=>{
 			describe('find(predicate:function|array[string,string]|array[string,function]|array[string,RegExp])',()=>{
 				describe('find(function)',()=>{
 					it('should return the object when the provided function returns true',()=>{
@@ -191,6 +191,11 @@ describe('Modified Array Methods',()=>{
 				var resultWrapped = wrapped.concat(additional1,additional2);
 				var resultClosed = closed.concat(additional1,additional2);
 				verify(resultWrapped,resultClosed,7)
+			})
+			it('should update the last indexes',()=>{
+				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+				var resultWrapped = wrapped.concat({name:'f'},{name:'z'});
+				expect(resultWrapped.lastIndexes()).to.eql([4,5]);
 			})
 		})
 		describe('pop([receiver:array])',()=>{
@@ -291,6 +296,11 @@ describe('Modified Array Methods',()=>{
 				expect(resultClosed.indexes('name').size).to.equal(arr.length)
 				expect(resultClosed.indexes('name').get('f')).to.equal(4)
 			})
+			it('should update the last indexes',()=>{
+				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+				var resultWrapped = wrapped.push({name:'f'},{name:'z'});
+				expect(resultWrapped.lastIndexes()).to.eql([4,5]);
+			})
 		})
 		describe('unshift()',()=>{
 			it('should prepend an item to the array',()=>{
@@ -326,6 +336,11 @@ describe('Modified Array Methods',()=>{
 				expect(resultClosed.indexes('name').size).to.equal(arr.length)
 				expect(resultClosed.indexes('name').get('f')).to.equal(0)
 				expect(resultClosed.indexes('name').get('b')).to.equal(1)
+			})
+			it('should update the last indexes',()=>{
+				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+				var resultWrapped = wrapped.unshift({name:'f'},{name:'z'});
+				expect(resultWrapped.lastIndexes()).to.eql([0,1]);
 			})
 		})
 		describe('reverse()',()=>{
@@ -480,6 +495,11 @@ describe('Modified Array Methods',()=>{
 				var result = wrapped.splice(2,3,{name:'f'}).indexes('name');
 				result.forEach((v,k)=>{keys.push(k)});
 				expect(keys).to.eql(['b','d','f']);
+			})
+			it('should update the last indexes',()=>{
+				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+				var resultWrapped = wrapped.splice(2,3,{name:'f'},{name:'z'});
+				expect(resultWrapped.lastIndexes()).to.eql([2,3]);
 			})
 		})
 	})

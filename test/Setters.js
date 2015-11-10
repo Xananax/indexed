@@ -112,6 +112,11 @@ describe('Set/Update/Remove',()=>{
 					})
 				})
 			})
+			it('should update the last indexes',()=>{
+				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+				var resultWrapped = wrapped.set(1,{name:'f'});
+				expect(resultWrapped.lastIndexes()).to.eql([1]);
+			})
 		})
 		describe('replace(predicate,value)',()=>{
 			describe('replace(index:integer,value)',()=>{
@@ -132,6 +137,11 @@ describe('Set/Update/Remove',()=>{
 					expect(result.indexes('name').get('d')).to.be.undefined;;
 				})
 			});
+			it('should update the last indexes',()=>{
+				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+				var resultWrapped = wrapped.replace(['name','d'],{name:'f'});
+				expect(resultWrapped.lastIndexes()).to.eql([1]);
+			})
 		})
 		describe('remove(predicate)',()=>{
 			describe('remove(index:integer)',()=>{
@@ -194,6 +204,11 @@ describe('Set/Update/Remove',()=>{
 					expect(get('c')).to.have.property('favoriteLetters')
 					expect(get('a')).to.not.have.property('favoriteLetters')
 				})
+			})
+			it('should update the last indexes',()=>{
+				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
+				var resultWrapped = wrapped.setMany(['name','b','c'],{name:'f'});
+				expect(resultWrapped.lastIndexes()).to.eql([3]);
 			})
 		})
 		describe('removeMany(predicates)',()=>{
