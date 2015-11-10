@@ -1,6 +1,6 @@
 {
   "name": "indexed",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "database-like indexed array that always returns a new array",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "test": "./node_modules/.bin/mocha",
     "spec": "./node_modules/.bin/mocha --reporter markdown > spec.md",
 	"prepare": "npm run test && npm run spec && npm run compile && echo \"CHANGED FILES:\" && git add -A -n",
-	"prepare-commit":"npm run prepare && git add -A && git commit && git push",
+	"prepare-commit":"npm run prepare && vim package.json && git add -A && git commit && git push",
 	"commit":"npm run prepare-commit && npm publish"
   },
   "devDependencies": {
