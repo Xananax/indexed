@@ -78,6 +78,7 @@
          - [removeMany([propName,fn],value)](#setupdateremove-set-or-remove-multiple-items-removemanypredicates-removemanypropnamefnvalue)
      - [transform items being added](#setupdateremove-transform-items-being-added)
        - [initializer(function)](#setupdateremove-transform-items-being-added-initializerfunction)
+     - [clear()](#setupdateremove-clear)
    - [Static methods and helpers](#static-methods-and-helpers)
      - [isArrayLike(obj)](#static-methods-and-helpers-isarraylikeobj)
    - [Unmodified array methods](#unmodified-array-methods)
@@ -203,7 +204,7 @@ var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }],
 expect(wrapped.get('notAnIndex')).to.be.undefined;
 ```
 
-should bind the function getIndex(key) to the current values only, unless mutate is false.
+should bind the function get(key) to the current values only, unless mutate is false.
 
 ```js
 var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
@@ -297,7 +298,10 @@ should return the index if the object specified by indexName and key exists.
 
 ```js
 var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name');
+var wrapped2 = wrap([{ id: 0 }, { id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }], 'id');
 expect(wrapped.getIndex('name', 'b')).to.equal(0);
+expect(wrapped2.getIndex('id', 4)).to.equal(4);
+expect(wrapped2.indexes().get('id').get(0)).to.equal(0);
 ```
 
 should return -1 if the index or key are not found.
@@ -1338,6 +1342,19 @@ var results = wrapped.set(2, { name: 'aa' });
 var get = results.get('name');
 expect(get('a')).to.be.undefined;
 expect(get('aa')).to.not.have.property('itWorks');
+```
+
+<a name="setupdateremove-clear"></a>
+## clear()
+should empty the array.
+
+```js
+var wrapped = wrap([{ name: 'b' }, { name: 'd' }, { name: 'a' }, { name: 'c' }], 'name', function (el) {
+	var obj = Object.assign(el, { itWorks: true });
+	return obj;
+});
+var results = wrapped.clear();
+expect(results.length).to.equal(0);
 ```
 
 <a name="static-methods-and-helpers"></a>

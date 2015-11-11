@@ -50,6 +50,18 @@ export function concat(props,arr,...values){
 	return [newIndexes,newArr];
 }
 
+export function clear(props,arr){
+	const {indexes,mutate} = props;
+	var newArr;
+	var newIndexes = indexes ? copyIndexes(indexes) : null;
+	if(mutate){
+		newArr = arrProto.splice.call(0,arr.length);
+	}else{
+		newArr = [];
+	}
+	return [newIndexes,newArr];
+}
+
 export function filter(props,arr,callback,thisArg){
 	const {indexes,mutate} = props;
 	var newArr = arrProto.filter.call(arr,callback,thisArg);

@@ -48,8 +48,8 @@ export function find(props,arr,callback,thisArg){
 
 export function getIndex(props,arr,indexName,key){
 	const {indexes} = props;
-	if(!indexes || !indexName){return -1;}
-	if(!indexes.has(indexName)){return -1;}
+	if(!indexes || !indexName){return key ? -1 : undefined;}
+	if(!indexes.has(indexName)){return key ? -1 : undefined;}
 	function getIndexInIndex(key){
 		var index = getIndexInIndexes(indexes,indexName,key);
 		return index;

@@ -1,6 +1,6 @@
 {
   "name": "indexed",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "database-like indexed array that always returns a new array",
   "main": "index.js",
   "scripts": {

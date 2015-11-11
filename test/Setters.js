@@ -375,4 +375,23 @@ describe('Set/Update/Remove',()=>{
 			})
 		})
 	})
+	describe('clear()',()=>{
+		it('should empty the array',()=>{
+			var wrapped = wrap(
+				[
+					{name:'b'}
+				,	{name:'d'}
+				,	{name:'a'}
+				,	{name:'c'}
+				]
+			,	'name'
+			,	(el)=>{
+					var obj = Object.assign(el,{itWorks:true});
+					return obj;
+				}
+			);
+			var results = wrapped.clear();
+			expect(results.length).to.equal(0)
+		})
+	})
 })

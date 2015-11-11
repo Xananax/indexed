@@ -36,6 +36,7 @@ import {
 ,	removeMany
 ,	findMany
 ,	fromJson
+,	clear
 } from './array-mutative'
 
 export const indexesMethods = {
@@ -77,6 +78,7 @@ export const mutableMethods = {
 ,	removeMany
 ,	findMany
 ,	fromJson
+,	clear
 }
 
 export const allMethods = {
