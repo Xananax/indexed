@@ -421,7 +421,7 @@ describe('Modified Array Methods',()=>{
 		})
 		describe('sort',()=>{
 			function sort(a,b){
-				return a.name>b.name;
+				return a.name>b.name ? 1 : (a.name === b.name ? 0 : -1);
 			}
 			it('sort the array if given a function',()=>{
 				var wrapped = wrap([{name:'b'},{name:'d'},{name:'a'},{name:'c'}],'name');
